@@ -6,7 +6,7 @@ import { StatCard } from '../components/StatCard';
 import { AlbumList, Album } from '../components/AlbumList';
 import { TrackList, Track } from '../components/TrackList';
 
-import { getArtistById, Artist, getCollaborators, getRangeAnalytics } from '../lib/artistApi';
+import { getArtistById, Artist, getCollaborators, getGenreDistributionById, getEmotionDistributionById } from '../lib/artistApi';
 import { getAlbumsByArtist, getAlbumCountByArtist } from '../lib/albumApi';
 import { getTracksByArtist, getTrackCountByArtist } from '../lib/trackApi';
 import {
@@ -17,6 +17,7 @@ import {
   Tooltip,
   Legend
 } from 'recharts';
+import { get } from 'http';
 
 export function ArtistDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +34,9 @@ export function ArtistDetailPage() {
   const [tracksPerPage, setTracksPerPage] = useState<number>(10);
   const [activeView, setActiveView] = useState<'music' | 'analytics'>('music');
   const [collaborators, setCollaborators] = useState<Artist[]>([]);
-  const [analytics, setAnalytics] = useState<any>(null);
+  // const [analytics, setAnalytics] = useState<any>(null);
+  const [genreDistribution, setGenreDistribution] = useState<any[]>([]);
+  const [emotionsDistribution, setEmotionsDistribution] = useState<any[]>([]);
 
   useEffect(() => {
     if (!id) return;
@@ -50,17 +53,15 @@ export function ArtistDetailPage() {
       setActiveView('music');
 
         const artistResponse = await getArtistById(id);
-        const analyticsParams = {
-          ids: [id],
-        };
         
-        const [albumsResponse, tracksResponse, albumCountResponse, trackCountResponse, collaboratorsResponse, analyticsResponse] = await Promise.all([
+        const [albumsResponse, tracksResponse, albumCountResponse, trackCountResponse, collaboratorsResponse, genresResponse, emotionsResponse] = await Promise.all([
           getAlbumsByArtist({artistId: id, limit: albumsPerPage, offset: (albumPage - 1) * albumsPerPage}),
           getTracksByArtist({artistId: id, limit: tracksPerPage, offset: (trackPage - 1) * tracksPerPage}),
           getAlbumCountByArtist(id),
           getTrackCountByArtist(id),
           getCollaborators(id),
-          getRangeAnalytics(analyticsParams),
+          getGenreDistributionById(id),
+          getEmotionDistributionById(id)
         ]);
 
       if (artistResponse.success && artistResponse.data) {
@@ -71,7 +72,8 @@ export function ArtistDetailPage() {
         setTopTracks(tracksResponse.success && tracksResponse.data ? tracksResponse.data : []);
         setAlbumCount(albumCountResponse.success && albumCountResponse.data ? albumCountResponse.data : 0);
         setTrackCount(trackCountResponse.success && trackCountResponse.data ? trackCountResponse.data : 0);
-        setAnalytics(analyticsResponse.success && analyticsResponse.data ? analyticsResponse.data : null);
+        setGenreDistribution(genresResponse.success && genresResponse.data ? genresResponse.data : []);
+        setEmotionsDistribution(emotionsResponse.success && emotionsResponse.data ? emotionsResponse.data : []);
       } else {
         setError('Artist does not exist');
       }
@@ -144,13 +146,15 @@ export function ArtistDetailPage() {
   const COLORS = ['#6366F1', '#EC4899', '#10B981', '#F59E0B', '#06B6D4', '#F97316', '#84CC16', '#8B5CF6'];
   
   // Get real analytics data and convert string numbers to integers
-  const genreData = (analytics?.genreDistribution || []).map(item => ({
+  const genreData = (genreDistribution || []).map(item => ({
     ...item,
-    artist_num: parseInt(item.artist_num, 10) || 0
+    artist_num: parseInt(item.artist_num, 10) || 0,
+    ratio: parseFloat(item.ratio) || 0
   }));
-  const emotionData = (analytics?.emotionDistribution || []).map(item => ({
+  const emotionData = (emotionsDistribution || []).map(item => ({
     ...item,
-    track_num: parseInt(item.track_num, 10) || 0
+    track_num: parseInt(item.track_num, 10) || 0,
+    ratio: parseFloat(item.ratio) || 0
   }));
   console.log(genreData, emotionData);
   
@@ -365,7 +369,7 @@ export function ArtistDetailPage() {
                             cx="50%"
                             cy="50%"
                             labelLine={false}
-                            label={({ genre, artist_num }) => `${genre}: ${artist_num}`}
+                            label={({ genre, artist_num, ratio }) => `${genre}: ${artist_num} (${(ratio * 100).toFixed(1)}%)`}
                             outerRadius={80}
                             fill="#8884d8"
                             dataKey="artist_num"
@@ -391,7 +395,7 @@ export function ArtistDetailPage() {
                             cx="50%"
                             cy="50%"
                             labelLine={false}
-                            label={({ emotion, track_num }) => `${emotion}: ${track_num}`}
+                            label={({ emotion, track_num, ratio }) => `${emotion}: ${track_num} (${(ratio * 100).toFixed(1)}%)`}
                             outerRadius={80}
                             fill="#8884d8"
                             dataKey="track_num"

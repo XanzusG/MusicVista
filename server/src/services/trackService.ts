@@ -381,41 +381,41 @@ export async function getSimilarTracks(params: SearchSimilarParams): Promise<Tra
   }
 }
 
-export interface EmotionDistribution {
-  emotion: string;
-  track_num: number;
-}
-export async function getEmotionDistribution(trackIds: string[]): Promise<EmotionDistribution[] | null> {
-  try { 
-    const query = `
-      SELECT
-        CASE
-          WHEN energy >= 0.666 AND valence < 0.333 THEN 'Frantic'
-          WHEN energy >= 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Tense'
-          WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphotic'
-          WHEN energy >= 0.333 AND energy < 0.666 AND valence < 0.333 THEN 'Upset'
-          WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Calm'
-          WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.666 THEN 'Cheerful'
-          WHEN energy < 0.333 AND valence < 0.333 THEN 'Bleak'
-          WHEN energy < 0.333 AND valence >= 0.333 AND valence < 0.666 THEN 'Apathetic'
-          WHEN energy < 0.333 AND valence >= 0.666 THEN 'Serene'
-          ELSE 'Other'
-        END AS emotion,
-        COUNT(energy) AS track_num
-      FROM track
-      WHERE id = ANY($1::TEXT[])
-      GROUP BY emotion
-    `;
-    const queryParams = [trackIds];
-    const result: QueryResult = await pool.query(query, queryParams);
-    console.log(result.rows);
-    return result.rows.length > 0 ? result.rows : null;
-  } catch (error) {
-    console.error('Error fetching emotion distribution:', error);
-    throw new Error('Error fetching emotion distribution');
-  }
+// export interface EmotionDistribution {
+//   emotion: string;
+//   track_num: number;
+// }
+// export async function getEmotionDistribution(trackIds: string[]): Promise<EmotionDistribution[] | null> {
+//   try { 
+//     const query = `
+//       SELECT
+//         CASE
+//           WHEN energy >= 0.666 AND valence < 0.333 THEN 'Frantic'
+//           WHEN energy >= 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Tense'
+//           WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphotic'
+//           WHEN energy >= 0.333 AND energy < 0.666 AND valence < 0.333 THEN 'Upset'
+//           WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Calm'
+//           WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.666 THEN 'Cheerful'
+//           WHEN energy < 0.333 AND valence < 0.333 THEN 'Bleak'
+//           WHEN energy < 0.333 AND valence >= 0.333 AND valence < 0.666 THEN 'Apathetic'
+//           WHEN energy < 0.333 AND valence >= 0.666 THEN 'Serene'
+//           ELSE 'Other'
+//         END AS emotion,
+//         COUNT(energy) AS track_num
+//       FROM track
+//       WHERE id = ANY($1::TEXT[])
+//       GROUP BY emotion
+//     `;
+//     const queryParams = [trackIds];
+//     const result: QueryResult = await pool.query(query, queryParams);
+//     console.log(result.rows);
+//     return result.rows.length > 0 ? result.rows : null;
+//   } catch (error) {
+//     console.error('Error fetching emotion distribution:', error);
+//     throw new Error('Error fetching emotion distribution');
+//   }
 
-}
+// }
 
 // export interface TracksByArtists {
 //   artistIds: string[];

@@ -18,6 +18,8 @@ router.get('/recent', albumController.getRecentAlbums);
 // GET /api/albums/search - Search albums
 router.get('/search', albumController.searchAlbums);
 
+router.get('/search/type-distribution', albumController.getTypeDistributionFromSearch);
+
 router.get('/count', albumController.getAlbumCount);
 
 // GET /api/albums/artist/:artistId - Get albums by artist
@@ -28,6 +30,5 @@ router.get('/:id', albumController.getAlbumById);
 
 router.get('/:id/tracks', trackController.getTracksByAlbum);
 
-router.get('/search/type-distribution', albumController.getTypeDistributionFromSearch);
 
 export default router;

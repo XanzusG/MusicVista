@@ -21,14 +21,17 @@ router.get('/search', artistController.searchArtists);
 
 router.get('/count', artistController.getArtistCount);
 
+router.get('/genres/count', artistController.getGenreCount);
+
 // GET /api/artists/genre/:genreName - Get artists by genre
 // router.get('/genre/:genreName', artistController.getArtistsByGenre);
 
 // GET /api/artists/genre-distribution - Get artist genre distribution
 // router.get('/analytics/genre', artistController.getGenreDistribution);
 
-router.get('/analytics', artistController.getRangeAnalytics);
-
+// router.get('/analytics', artistController.getRangeAnalytics);
+router.get('/genre-distribution', artistController.getGenreDistribution);
+router.get('/emotion-distribution', artistController.getEmotionDistribution);
 // GET /api/artists/:id - Get artist details
 router.get('/:id', artistController.getArtistById);
 
@@ -39,7 +42,8 @@ router.get('/:id/tracks/count', trackController.getTrackCountByArtist);
 
 router.get('/:id/albums', albumController.getAlbumsByArtist);
 router.get('/:id/albums/count', albumController.getAlbumCountByArtist);
+router.get('/:id/genre-distribution', artistController.getGenreDistributionById);
+router.get('/:id/emotion-distribution', artistController.getEmotionDistributionById);
 
-router.get('/genres/count', artistController.getGenreCount);
 
 export default router;

@@ -256,17 +256,20 @@ http://localhost:3001/api
 
 #### Artists
 ```
-GET    /api/artists/trending                    # Get trending artists
-GET    /api/artists/search                      # Search artists
-GET    /api/artists/count                       # Get total artist count
-GET    /api/artists/analytics                   # Get artist analytics by range
-GET    /api/artists/genres/count                # Get genre count
-GET    /api/artists/:id                         # Get artist details
-GET    /api/artists/:id/collaborators           # Get artist collaborators
-GET    /api/artists/:id/tracks                  # Get artist's tracks
-GET    /api/artists/:id/tracks/count            # Get artist's track count
-GET    /api/artists/:id/albums                  # Get artist's albums
-GET    /api/artists/:id/albums/count            # Get artist's album count
+GET    /api/artists/trending                        # Get trending artists
+GET    /api/artists/search                          # Search artists
+GET    /api/artists/count                           # Get total artist count
+GET    /api/artists/genres/count                    # Get genre count
+GET    /api/artists/genre-distribution              # Get genre distribution across all artists
+GET    /api/artists/emotion-distribution            # Get emotion distribution across all artists
+GET    /api/artists/:id                             # Get artist details
+GET    /api/artists/:id/collaborators               # Get artist collaborators
+GET    /api/artists/:id/tracks                      # Get artist's tracks
+GET    /api/artists/:id/tracks/count                # Get artist's track count
+GET    /api/artists/:id/albums                      # Get artist's albums
+GET    /api/artists/:id/albums/count                # Get artist's album count
+GET    /api/artists/:id/genre-distribution          # Get genre distribution for specific artist
+GET    /api/artists/:id/emotion-distribution        # Get emotion distribution for specific artist
 ```
 
 #### Albums

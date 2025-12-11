@@ -42,42 +42,42 @@ import {
 } from 'lucide-react';
 
 // Mock data types
-interface EmotionData {
-  emotion: string;
-  count: number;
-  percentage: number;
-}
+// interface EmotionData {
+//   emotion: string;
+//   count: number;
+//   percentage: number;
+// }
 
-interface ArtistGrowthData {
-  month: string;
-  followers: number;
-  popularity: number;
-}
+// interface ArtistGrowthData {
+//   month: string;
+//   followers: number;
+//   popularity: number;
+// }
 
-interface GenreWordData {
-  text: string;
-  value: number;
-}
+// interface GenreWordData {
+//   text: string;
+//   value: number;
+// }
 
-interface LoveFrequencyData {
-  emotion: string;
-  frequency: number;
-  songs: number;
-}
+// interface LoveFrequencyData {
+//   emotion: string;
+//   frequency: number;
+//   songs: number;
+// }
 
-interface ArtistEmotionData {
-  artist: string;
-  emotional: number;
-  energetic: number;
-  danceable: number;
-  positive: number;
-}
+// interface ArtistEmotionData {
+//   artist: string;
+//   emotional: number;
+//   energetic: number;
+//   danceable: number;
+//   positive: number;
+// }
 
-interface AudioFeatureData {
-  feature: string;
-  value: number;
-  category: string;
-}
+// interface AudioFeatureData {
+//   feature: string;
+//   value: number;
+//   category: string;
+// }
 
 interface LoveDistributionData {
   emotion: string;

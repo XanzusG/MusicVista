@@ -84,46 +84,71 @@ export async function getTrendingArtists(req: Request, res: Response): Promise<v
   }
 }
 
-export async function getRangeAnalytics(req: Request, res: Response): Promise<void> {
+// export async function getRangeAnalytics(req: Request, res: Response): Promise<void> {
+//   try {
+//     let ids: string[] = [];
+//     if (req.query.ids) {
+//       if (Array.isArray(req.query.ids)) {
+//         ids = req.query.ids as string[];
+//       } else {
+//         ids = [req.query.ids as string];
+//       }
+//     }
+//     const params = {
+//       searchTerm: (req.query.searchTerm as string) || '',
+//       genreFilter: (req.query.genreFilter as string) || '',
+//       includeGenres: (req.query.includeGenres as string) === 'true',
+//       sortBy: (req.query.sortBy as 'popularity' | 'name') || 'popularity',
+//       sortOrder: (req.query.sortOrder as 'ASC' | 'DESC') || 'DESC',
+//       onlyId: true,
+//       ids: ids,
+//     };
+//     const artists = await ArtistService.getArtists(params);
+//     if (!artists) {
+//       sendError(res, 'No related artists found', 404);
+//       return;
+//     }
+//     const artistIds = artists.map(artist => artist.id);
+//     const genreParams = { artistIds, limit: 10 };
+//     console.log(123);
+//     const genreDistribution = await ArtistService.getGenreDistribution(genreParams);
+//     console.log(234)
+//     const tracks = await TrackService.getTracks({ artistIds }) || [];
+//     console.log(345)
+//     const trackIds = tracks.map(track => track.id);
+//     const emotionDistribution = await TrackService.getEmotionDistribution(trackIds);
+//     console.log(456);
+//     sendSuccess(res, { total: artistIds.length, genreDistribution: genreDistribution, emotionDistribution: emotionDistribution });
+//   } catch (error: any) {
+//     handleControllerError(res, error, 'getRangeAnalytics');
+//   }
+// }
+export async function getGenreDistribution(req: Request, res: Response): Promise<void> { 
   try {
-    let ids: string[] = [];
-    if (req.query.ids) {
-      if (Array.isArray(req.query.ids)) {
-        ids = req.query.ids as string[];
-      } else {
-        ids = [req.query.ids as string];
-      }
-    }
     const params = {
       searchTerm: (req.query.searchTerm as string) || '',
       genreFilter: (req.query.genreFilter as string) || '',
-      includeGenres: (req.query.includeGenres as string) === 'true',
-      sortBy: (req.query.sortBy as 'popularity' | 'name') || 'popularity',
-      sortOrder: (req.query.sortOrder as 'ASC' | 'DESC') || 'DESC',
-      onlyId: true,
-      ids: ids,
+      ids: req.query.ids ? (Array.isArray(req.query.ids) ? req.query.ids as string[] : [req.query.ids as string]) : [],
     };
-    const artists = await ArtistService.getArtists(params);
-    if (!artists) {
-      sendError(res, 'No related artists found', 404);
-      return;
-    }
-    const artistIds = artists.map(artist => artist.id);
-    const genreParams = { artistIds, limit: 10 };
-    console.log(123);
-    const genreDistribution = await ArtistService.getGenreDistribution(genreParams);
-    console.log(234)
-    const tracks = await TrackService.getTracks({ artistIds }) || [];
-    console.log(345)
-    const trackIds = tracks.map(track => track.id);
-    const emotionDistribution = await TrackService.getEmotionDistribution(trackIds);
-    console.log(456);
-    sendSuccess(res, { total: artistIds.length, genreDistribution: genreDistribution, emotionDistribution: emotionDistribution });
+    const genreDistribution = await ArtistService.getGenreDistribution(params);
+    sendSuccess(res, genreDistribution);
   } catch (error: any) {
-    handleControllerError(res, error, 'getRangeAnalytics');
+    handleControllerError(res, error, 'getGenreDistribution');
   }
 }
-
+export async function getEmotionDistribution(req: Request, res: Response): Promise<void> { 
+  try {
+    const params = {
+      searchTerm: (req.query.searchTerm as string) || '',
+      genreFilter: (req.query.genreFilter as string) || '',
+      ids: req.query.ids ? (Array.isArray(req.query.ids) ? req.query.ids as string[] : [req.query.ids as string]) : [],
+    };
+    const emotionDistribution = await ArtistService.getEmotionDistribution(params);
+    sendSuccess(res, emotionDistribution);
+  } catch (error: any) {
+    handleControllerError(res, error, 'getEmotionDistribution');
+  }
+}
 // export async function getGenreDistribution(req: Request, res: Response): Promise<void> {
 //   try {
 //     const params = {
@@ -169,12 +194,22 @@ export async function getCollaborators(req: Request, res: Response): Promise<voi
 export async function getGenreDistributionById(req: Request, res: Response): Promise<void> {
   try {
     const params = {
-      artistIds: [req.params.artistId as string],
-      limit: req.query.limit ? parseInt(req.query.limit as string) : 10
+      ids: [req.params.id as string],
     };
     const genreDistribution = await ArtistService.getGenreDistribution(params);
     sendSuccess(res, genreDistribution);
   } catch (error: any) {
     handleControllerError(res, error, 'getGenreDistribution');
+  }
+}
+export async function getEmotionDistributionById(req: Request, res: Response): Promise<void> {
+  try {
+    const params = {
+      ids: [req.params.id as string],
+    };
+    const emotionDistribution = await ArtistService.getEmotionDistribution(params);
+    sendSuccess(res, emotionDistribution);
+  } catch (error: any) {
+    handleControllerError(res, error, 'getEmotionDistribution');
   }
 }

@@ -9,7 +9,7 @@ import { AlbumList } from '../components/AlbumList';
 import { TrackList } from '../components/TrackList';
 import { TrackCard } from '../components/TrackCard';
 import { Search, SlidersHorizontal, BookOpen, TrendingUp, ArrowUpDown } from 'lucide-react';
-import { Artist, searchArtists, getRangeAnalytics, getArtistCount } from '../lib/artistApi';
+import { Artist, searchArtists, getGenreDistribution, getEmotionDistribution, getArtistCount } from '../lib/artistApi';
 import { searchAlbums, Album, getAlbumCount, getTypeDistributionFromSearch } from '../lib/albumApi';
 import { searchTracks, Track, getTrackCount } from '../lib/trackApi';
 // import { getGenres } from '../lib/genreApi';
@@ -49,8 +49,10 @@ export function ExplorePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-  const [analytics, setAnalytics] = useState<any>(null);
+  // const [analytics, setAnalytics] = useState<any>(null);
   const [albumTypes, setAlbumTypes] = useState<any[]>([]);
+  const [artistGenres, setArtistGenres] = useState<any[]>([]);
+  const [artistEmotions, setArtistEmotions] = useState<any[]>([]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -177,13 +179,10 @@ export function ExplorePage() {
           searchTerm: searchQuery,
           genreFilter: selectedGenre === 'all' ? undefined : selectedGenre
         }
-        const res2 = await getRangeAnalytics(params);
-            
-        setAnalytics({
-          genreDistribution: res2.data.genreDistribution || [],
-          emotionDistribution: res2.data.emotionDistribution || []
-        });
-        console.log('Analytics:', res2.data);
+        const genreResponse = await getGenreDistribution(params);
+        setArtistGenres(genreResponse.data || []);
+        const emotionResponse = await getEmotionDistribution(params);
+        setArtistEmotions(emotionResponse.data || []);
       } else if (view === 'albums') {
         const res = await getTypeDistributionFromSearch({
         searchTerm: searchQuery,
@@ -420,21 +419,21 @@ export function ExplorePage() {
                   />
 
                   {/* Pie chart area */}
-                  {analytics && (analytics.genreDistribution?.length > 0 || analytics.emotionDistribution?.length > 0) && (
+                  {(artistGenres.length > 0 || artistEmotions.length > 0) && (
                     <div className="mt-12 space-y-8">
                       <h3 className="text-h3 font-semibold text-neutral-900">Distribution Analytics</h3>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Genre Distribution pie chart */}
-                        {analytics.genreDistribution && analytics.genreDistribution.length > 0 && (
+                        {artistGenres && artistGenres.length > 0 && (
                           <div className="bg-surface p-6 rounded-lg border border-neutral-200">
                             <h4 className="text-h4 font-medium text-neutral-900 mb-4">Genre Distribution</h4>
                             <div className="h-64">
                               <Pie
                                 data={{
-                                  labels: analytics.genreDistribution.map((item: any) => item.genre),
+                                  labels: artistGenres.map((item: any) => item.genre),
                                   datasets: [
                                     {
-                                      data: analytics.genreDistribution.map((item: any) => item.artist_num),
+                                      data: artistGenres.map((item: any) => item.artist_num),
                                       backgroundColor: [
                                         '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
                                         '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
@@ -476,16 +475,16 @@ export function ExplorePage() {
                         )}
 
                         {/* Emotion Distribution pie chart */}
-                        {analytics.emotionDistribution && analytics.emotionDistribution.length > 0 && (
+                        {artistEmotions && artistEmotions.length > 0 && (
                           <div className="bg-surface p-6 rounded-lg border border-neutral-200">
                             <h4 className="text-h4 font-medium text-neutral-900 mb-4">Emotion Distribution</h4>
                             <div className="h-64">
                               <Pie
                                 data={{
-                                  labels: analytics.emotionDistribution.map((item: any) => item.emotion),
+                                  labels: artistEmotions.map((item: any) => item.emotion),
                                   datasets: [
                                     {
-                                      data: analytics.emotionDistribution.map((item: any) => item.track_num),
+                                      data: artistEmotions.map((item: any) => item.track_num),
                                       backgroundColor: [
                                         '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
                                         '#9966FF', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF9F40'

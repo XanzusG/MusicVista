@@ -75,9 +75,21 @@ export async function getArtistCount(params: SearchArtistsParams): Promise<ApiRe
   return apiRequest<ApiResponse<number>>(`artists/count?searchTerm=${encodeURIComponent(params.searchTerm || '')}&genreFilter=${encodeURIComponent(params.genreFilter || '')}`, 'Failed to get artist count');
 }
 
-export async function getRangeAnalytics(params: SearchArtistsParams): Promise<ApiResponse<any>> {
-  console.log(params);
-  return apiRequest<ApiResponse<any>>(`artists/analytics?searchTerm=${encodeURIComponent(params.searchTerm || '')}&genreFilter=${encodeURIComponent(params.genreFilter || '')}&includeGenres=${params.includeGenres || true}&sortBy=${params.sortBy || 'popularity'}&sortOrder=${params.sortOrder || 'DESC'}&ids=${encodeURIComponent(params.ids? params.ids[0] : '')}`, 'Failed to get range analytics');
+// export async function getRangeAnalytics(params: SearchArtistsParams): Promise<ApiResponse<any>> {
+//   console.log(params);
+//   return apiRequest<ApiResponse<any>>(`artists/analytics?searchTerm=${encodeURIComponent(params.searchTerm || '')}&genreFilter=${encodeURIComponent(params.genreFilter || '')}&includeGenres=${params.includeGenres || true}&sortBy=${params.sortBy || 'popularity'}&sortOrder=${params.sortOrder || 'DESC'}&ids=${encodeURIComponent(params.ids? params.ids[0] : '')}`, 'Failed to get range analytics');
+// }
+export async function getGenreDistribution(params: SearchArtistsParams): Promise<ApiResponse<any[]>> {
+  return apiRequest<ApiResponse<any[]>>(`artists/genre-distribution?searchTerm=${encodeURIComponent(params.searchTerm || '')}&genreFilter=${encodeURIComponent(params.genreFilter || '')}&ids=${encodeURIComponent(params.ids? params.ids[0] : '')}`, 'Failed to get genre distribution');
+}
+export async function getEmotionDistribution(params: SearchArtistsParams): Promise<ApiResponse<any[]>> {
+  return apiRequest<ApiResponse<any[]>>(`artists/emotion-distribution?searchTerm=${encodeURIComponent(params.searchTerm || '')}&genreFilter=${encodeURIComponent(params.genreFilter || '')}&ids=${encodeURIComponent(params.ids? params.ids[0] : '')}`, 'Failed to get emotion distribution');
+}
+export async function getEmotionDistributionById(artistId: string): Promise<ApiResponse<any[]>> {
+  return apiRequest<ApiResponse<any[]>>(`artists/${artistId}/emotion-distribution`, 'Failed to get emotion distribution by artist ID');
+}
+export async function getGenreDistributionById(artistId: string): Promise<ApiResponse<any[]>> {
+  return apiRequest<ApiResponse<any[]>>(`artists/${artistId}/genre-distribution`, 'Failed to get genre distribution by artist ID');
 }
 
 export async function getGenreCount(): Promise<ApiResponse<number>> {

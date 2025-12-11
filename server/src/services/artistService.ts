@@ -411,6 +411,7 @@ export async function getGenreCount(): Promise<number> {
 export interface GenreDistribution {    
     genre: string;
     artist_num: number;
+    ratio: number;
     // avg_popularity: number;
 }
 
@@ -448,26 +449,82 @@ interface GenreDistributionParams {
     limit?: number;
 }
 
-export async function getGenreDistribution(params: GenreDistributionParams): Promise<GenreDistribution[]> {
-    try { 
-        const { artistIds, limit = 10 } = params;
-        if (artistIds.length === 0) {
-            return [];
-        }
+// export async function getGenreDistribution(params: GenreDistributionParams): Promise<GenreDistribution[]> {
+//     try { 
+//         const { artistIds, limit = 10 } = params;
+//         if (artistIds.length === 0) {
+//             return [];
+//         }
 
+//         const query = `
+//             SELECT
+//                 genre,
+//                 COUNT(*) AS artist_num
+//             FROM artist_genre
+//             WHERE artist_id = ANY($1::TEXT[])
+//             AND genre IS NOT NULL
+//             GROUP BY genre
+//             ORDER BY artist_num DESC
+//             LIMIT $2
+//         `;
+//         const queryParams = [artistIds, limit];
+//         // console.log(query, queryParams);
+
+//         const result: QueryResult = await pool.query(query, queryParams);
+
+//         return result.rows;
+//     } catch (error) {
+//         console.error('Error fetching artist genre distribution:', error);
+//         throw new Error('Error fetching artist genre distribution');
+//     }
+// }
+
+export async function getGenreDistribution(params: getArtistsParams): Promise<GenreDistribution[]> {
+    try { 
+        const { genreFilter = '', searchTerm = '', ids = []} = params;
+        const queryParams = []; 
+        let paramIndex = 0;
         const query = `
+            WITH
+            artist_ids AS (
+                SELECT
+                    id
+                FROM artist
+                WHERE 1 = 1
+                ${searchTerm ? `AND name ILIKE $${++paramIndex}` : ''}
+                ${ids.length > 0 ? `AND id = ANY($${++paramIndex}::TEXT[])` : ''}
+            ),
+            genre_cnt AS (
+                SELECT
+                    genre,
+                    COUNT(*) AS artist_num
+                FROM artist_genre
+                WHERE artist_id IN (SELECT id FROM artist_ids)
+                AND genre IS NOT NULL
+                ${genreFilter ? `AND genre ILIKE $${++paramIndex}` : ''}
+                GROUP BY genre
+                ORDER BY artist_num DESC
+                LIMIT 10
+            ),
+            total AS (
+                SELECT SUM(artist_num) AS total_num
+                FROM genre_cnt
+            )
             SELECT
                 genre,
-                COUNT(*) AS artist_num
-            FROM artist_genre
-            WHERE artist_id = ANY($1::TEXT[])
-            AND genre IS NOT NULL
-            GROUP BY genre
-            ORDER BY artist_num DESC
-            LIMIT $2
+                artist_num,
+                1.0 * artist_num / (SELECT total_num FROM total) AS ratio
+            FROM genre_cnt
         `;
-        const queryParams = [artistIds, limit];
-        // console.log(query, queryParams);
+        if (searchTerm) {
+            queryParams.push(`%${searchTerm}%`);
+        }
+        if (ids.length > 0) {
+            queryParams.push(ids);
+        }
+        if (genreFilter) {
+            queryParams.push(`%${genreFilter}%`);
+        }
 
         const result: QueryResult = await pool.query(query, queryParams);
 
@@ -476,6 +533,89 @@ export async function getGenreDistribution(params: GenreDistributionParams): Pro
         console.error('Error fetching artist genre distribution:', error);
         throw new Error('Error fetching artist genre distribution');
     }
+}
+
+export interface EmotionDistribution {
+  emotion: string;
+  track_num: number;
+  ratio: number;
+}
+export async function getEmotionDistribution(params: getArtistsParams): Promise<EmotionDistribution[] | null> {
+  try { 
+    const { genreFilter = '', searchTerm = '', ids = []} = params;
+    const queryParams = []; 
+    let paramIndex = 0;
+    const query = `
+        WITH
+        artist_ids AS (
+            SELECT
+                id
+            FROM artist
+            WHERE 1 = 1
+            ${searchTerm ? `AND name ILIKE $${++paramIndex}` : ''}
+            ${ids.length > 0 ? `AND id = ANY($${++paramIndex}::TEXT[])` : ''}
+        ),
+        artist_ids2 AS (
+            SELECT
+                artist_id
+            FROM artist_genre
+            WHERE artist_id IN (SELECT id FROM artist_ids)
+            ${genreFilter ? `AND genre ILIKE $${++paramIndex}` : ''}
+        ),
+        track_ids AS (
+            SELECT
+                track_id
+            FROM track_artist
+            WHERE artist_id IN (SELECT artist_id FROM artist_ids2)
+        ),
+        emotion_cnt AS (
+            SELECT
+                CASE
+                WHEN energy >= 0.666 AND valence < 0.333 THEN 'Frantic'
+                WHEN energy >= 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Tense'
+                WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphotic'
+                WHEN energy >= 0.333 AND energy < 0.666 AND valence < 0.333 THEN 'Upset'
+                WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Calm'
+                WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.666 THEN 'Cheerful'
+                WHEN energy < 0.333 AND valence < 0.333 THEN 'Bleak'
+                WHEN energy < 0.333 AND valence >= 0.333 AND valence < 0.666 THEN 'Apathetic'
+                WHEN energy < 0.333 AND valence >= 0.666 THEN 'Serene'
+                ELSE 'Other'
+                END AS emotion,
+                COUNT(energy) AS track_num
+            FROM track
+            WHERE id IN (SELECT track_id FROM track_ids)
+            GROUP BY emotion
+        ),
+        total AS (
+            SELECT SUM(track_num) AS total_num
+            FROM emotion_cnt
+        )
+        SELECT
+            emotion,
+            track_num,
+            1.0 * track_num / (SELECT total_num FROM total) AS ratio
+        FROM emotion_cnt
+    `;
+
+    if (searchTerm) {
+      queryParams.push(`%${searchTerm}%`);
+    }
+    if (ids.length > 0) {
+      queryParams.push(ids);
+    }
+    if (genreFilter) {
+      queryParams.push(`%${genreFilter}%`);
+    }
+
+    const result: QueryResult = await pool.query(query, queryParams);
+    console.log(result.rows);
+    return result.rows.length > 0 ? result.rows : null;
+  } catch (error) {
+    console.error('Error fetching emotion distribution:', error);
+    throw new Error('Error fetching emotion distribution');
+  }
+
 }
 
 export async function getCollaborators(artistId: string): Promise<Artist[]> {
