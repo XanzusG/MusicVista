@@ -153,7 +153,7 @@ export function HomePage() {
       <section className="py-16 bg-surface">
         <div className="container mx-auto px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-h2 font-semibold text-neutral-900">Recommended Albums</h2>
+            <h2 className="text-h2 font-semibold text-neutral-900">Recent Albums</h2>
             <Link
               to="/explore"
               className="text-body text-primary-500 hover:text-primary-600 font-medium flex items-center gap-2 group"

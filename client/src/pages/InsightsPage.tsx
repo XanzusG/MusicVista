@@ -116,62 +116,62 @@ export function InsightsPage() {
   const [artistEmotionVariety, setArtistEmotionVariety] = useState<ArtistEmotionVarietyData[]>([]);
 
   // Mock data
-  const emotionDistribution: EmotionData[] = [
-    { emotion: 'Happy', count: 2456, percentage: 28.5 },
-    { emotion: 'Sad', count: 1823, percentage: 21.2 },
-    { emotion: 'Angry', count: 1234, percentage: 14.3 },
-    { emotion: 'Calm', count: 1567, percentage: 18.2 },
-    { emotion: 'Excited', count: 1534, percentage: 17.8 }
-  ];
+  // const emotionDistribution: EmotionData[] = [
+  //   { emotion: 'Happy', count: 2456, percentage: 28.5 },
+  //   { emotion: 'Sad', count: 1823, percentage: 21.2 },
+  //   { emotion: 'Angry', count: 1234, percentage: 14.3 },
+  //   { emotion: 'Calm', count: 1567, percentage: 18.2 },
+  //   { emotion: 'Excited', count: 1534, percentage: 17.8 }
+  // ];
 
-  const artistGrowth: ArtistGrowthData[] = [
-    { month: 'Jan', followers: 12000, popularity: 65 },
-    { month: 'Feb', followers: 15000, popularity: 68 },
-    { month: 'Mar', followers: 18000, popularity: 72 },
-    { month: 'Apr', followers: 22000, popularity: 75 },
-    { month: 'May', followers: 28000, popularity: 78 },
-    { month: 'Jun', followers: 35000, popularity: 82 }
-  ];
+  // const artistGrowth: ArtistGrowthData[] = [
+  //   { month: 'Jan', followers: 12000, popularity: 65 },
+  //   { month: 'Feb', followers: 15000, popularity: 68 },
+  //   { month: 'Mar', followers: 18000, popularity: 72 },
+  //   { month: 'Apr', followers: 22000, popularity: 75 },
+  //   { month: 'May', followers: 28000, popularity: 78 },
+  //   { month: 'Jun', followers: 35000, popularity: 82 }
+  // ];
 
-  const genreWordCloud: GenreWordData[] = [
-    { text: 'Love', value: 89 },
-    { text: 'Heart', value: 76 },
-    { text: 'Dance', value: 65 },
-    { text: 'Night', value: 58 },
-    { text: 'Dream', value: 52 },
-    { text: 'Fire', value: 48 },
-    { text: 'Light', value: 45 },
-    { text: 'Rain', value: 42 },
-    { text: 'Soul', value: 38 },
-    { text: 'Time', value: 35 }
-  ];
+  // const genreWordCloud: GenreWordData[] = [
+  //   { text: 'Love', value: 89 },
+  //   { text: 'Heart', value: 76 },
+  //   { text: 'Dance', value: 65 },
+  //   { text: 'Night', value: 58 },
+  //   { text: 'Dream', value: 52 },
+  //   { text: 'Fire', value: 48 },
+  //   { text: 'Light', value: 45 },
+  //   { text: 'Rain', value: 42 },
+  //   { text: 'Soul', value: 38 },
+  //   { text: 'Time', value: 35 }
+  // ];
 
-  const loveFrequencyByEmotion: LoveFrequencyData[] = [
-    { emotion: 'Happy Songs', frequency: 78, songs: 456 },
-    { emotion: 'Sad Songs', frequency: 45, songs: 234 },
-    { emotion: 'Angry Songs', frequency: 23, songs: 123 },
-    { emotion: 'Calm Songs', frequency: 56, songs: 289 },
-    { emotion: 'Excited Songs', frequency: 67, songs: 345 }
-  ];
+  // const loveFrequencyByEmotion: LoveFrequencyData[] = [
+  //   { emotion: 'Happy Songs', frequency: 78, songs: 456 },
+  //   { emotion: 'Sad Songs', frequency: 45, songs: 234 },
+  //   { emotion: 'Angry Songs', frequency: 23, songs: 123 },
+  //   { emotion: 'Calm Songs', frequency: 56, songs: 289 },
+  //   { emotion: 'Excited Songs', frequency: 67, songs: 345 }
+  // ];
 
-  const artistEmotionalDiversity: ArtistEmotionData[] = [
-    { artist: 'Taylor Swift', emotional: 85, energetic: 72, danceable: 68, positive: 79 },
-    { artist: 'Drake', emotional: 65, energetic: 88, danceable: 82, positive: 71 },
-    { artist: 'Billie Eilish', emotional: 92, energetic: 45, danceable: 38, positive: 52 },
-    { artist: 'The Weeknd', emotional: 78, energetic: 85, danceable: 76, positive: 68 },
-    { artist: 'Ariana Grande', emotional: 73, energetic: 79, danceable: 84, positive: 82 }
-  ];
+  // const artistEmotionalDiversity: ArtistEmotionData[] = [
+  //   { artist: 'Taylor Swift', emotional: 85, energetic: 72, danceable: 68, positive: 79 },
+  //   { artist: 'Drake', emotional: 65, energetic: 88, danceable: 82, positive: 71 },
+  //   { artist: 'Billie Eilish', emotional: 92, energetic: 45, danceable: 38, positive: 52 },
+  //   { artist: 'The Weeknd', emotional: 78, energetic: 85, danceable: 76, positive: 68 },
+  //   { artist: 'Ariana Grande', emotional: 73, energetic: 79, danceable: 84, positive: 82 }
+  // ];
 
-  const audioFeaturesByGenre: AudioFeatureData[] = [
-    { feature: 'Energy', value: 0.75, category: 'Pop' },
-    { feature: 'Danceability', value: 0.82, category: 'Pop' },
-    { feature: 'Valence', value: 0.68, category: 'Pop' },
-    { feature: 'Acousticness', value: 0.23, category: 'Pop' },
-    { feature: 'Energy', value: 0.88, category: 'Rock' },
-    { feature: 'Danceability', value: 0.65, category: 'Rock' },
-    { feature: 'Valence', value: 0.72, category: 'Rock' },
-    { feature: 'Acousticness', value: 0.15, category: 'Rock' }
-  ];
+  // const audioFeaturesByGenre: AudioFeatureData[] = [
+  //   { feature: 'Energy', value: 0.75, category: 'Pop' },
+  //   { feature: 'Danceability', value: 0.82, category: 'Pop' },
+  //   { feature: 'Valence', value: 0.68, category: 'Pop' },
+  //   { feature: 'Acousticness', value: 0.23, category: 'Pop' },
+  //   { feature: 'Energy', value: 0.88, category: 'Rock' },
+  //   { feature: 'Danceability', value: 0.65, category: 'Rock' },
+  //   { feature: 'Valence', value: 0.72, category: 'Rock' },
+  //   { feature: 'Acousticness', value: 0.15, category: 'Rock' }
+  // ];
 
   useEffect(() => {
     loadData();
@@ -264,8 +264,8 @@ export function InsightsPage() {
       </Layout>
     );
   }
-  console.log(1,loveDistribution);
-  console.log(2,emotionDistribution);
+  // console.log(1,loveDistribution);
+  // console.log(2,emotionDistribution);
   return (
     <Layout>
       <div className="container mx-auto px-8 py-8">
@@ -346,7 +346,7 @@ export function InsightsPage() {
 
           {/* Pop Songs Word Cloud */}
           <div className="bg-surface rounded-lg p-6 border border-neutral-100 shadow-sm">
-            <h3 className="text-h4 font-semibold text-neutral-900 mb-4">High-freq Words in Cheerful Pop Songs</h3>
+            <h3 className="text-h4 font-semibold text-neutral-900 mb-4">High-freq Words in City Pop Songs</h3>
             <div className="h-64 flex items-center justify-center">
               <ReactWordcloud
                 words={popWords}
@@ -465,7 +465,7 @@ export function InsightsPage() {
         </div>
 
         {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12"> */}
           {/* Emotion Distribution Pie Chart */}
           {/* <div className="bg-surface rounded-lg p-6 border border-neutral-100 shadow-sm">
             <h3 className="text-h4 font-semibold text-neutral-900 mb-4">Emotion Distribution</h3>
@@ -508,7 +508,7 @@ export function InsightsPage() {
         </div> */}
 
         {/* Genre Word Cloud & Love Frequency */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12"> */}
           {/* Genre Word Cloud */}
           {/* <div className="bg-surface rounded-lg p-6 border border-neutral-100 shadow-sm">
             <h3 className="text-h4 font-semibold text-neutral-900 mb-4">Genre High-Frequency Words</h3>
@@ -536,7 +536,7 @@ export function InsightsPage() {
                 }}
               />
             </div> */}
-          </div>
+          {/* </div> */}
 
           {/* Love Frequency by Emotion */}
           {/* <div className="bg-surface rounded-lg p-6 border border-neutral-100 shadow-sm">
@@ -631,6 +631,20 @@ export function InsightsPage() {
               </div>
             </div>
           </div> */}
+        {/* </div> */}
+
+        {/* More Insights Coming Soon */}
+        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-8 border border-purple-200">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Zap className="w-6 h-6 text-primary-500" />
+              <h3 className="text-h3 font-bold text-neutral-900">More Insights Coming Soon</h3>
+              <Zap className="w-6 h-6 text-primary-500" />
+            </div>
+            <p className="text-body text-neutral-600">
+              We're working on even more exciting analytics and visualizations to help you discover deeper music patterns and trends
+            </p>
+          </div>
         </div>
       </div>
     </Layout>

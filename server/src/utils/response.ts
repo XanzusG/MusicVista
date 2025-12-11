@@ -18,5 +18,6 @@ export function sendError(res: Response, error: string, statusCode: number = 500
 
 export function handleControllerError(res: Response, error: any, context: string): void {
   console.error(`Error in ${context}:`, error);
-  sendError(res, error.message, 500);
+  const errorMessage = error?.message || error || 'Unknown error';
+  sendError(res, errorMessage, 500);
 }

@@ -10,19 +10,23 @@ WORKDIR /app
 RUN apk add --no-cache \
     python3 \
     make \
-    g++
+    g++ \
+    curl
 
 # 复制 package.json 和 package-lock.json
-COPY server/package*.json ./
+COPY package*.json ./
 
-# 安装依赖
-RUN npm ci --only=production && npm cache clean --force
+# 安装所有依赖（包括 devDependencies，因为需要构建）
+RUN npm ci && npm cache clean --force
 
-# 复制源代码
-COPY server/ .
+# 复制源代码和配置文件
+COPY . .
 
 # 构建应用
 RUN npm run build
+
+# 删除 devDependencies 减小镜像大小
+RUN npm prune --production
 
 # 创建非 root 用户
 RUN addgroup -g 1001 -S nodejs && \
@@ -32,12 +36,12 @@ RUN addgroup -g 1001 -S nodejs && \
 RUN chown -R nodejs:nodejs /app
 USER nodejs
 
-# 暴露端口
-EXPOSE 3002
+# 暴露端口（修改为正确的 3001）
+EXPOSE 3001
 
-# 健康检查
+# 健康检查（使用 curl 检查 /health 端点）
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-    CMD node healthcheck.js || exit 1
+    CMD curl -f http://localhost:3001/health || exit 1
 
 # 启动应用
 CMD ["npm", "start"]

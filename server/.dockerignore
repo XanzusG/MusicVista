@@ -1,0 +1,77 @@
+# ==========================================
+# Docker 构建忽略文件
+# 用于减小 Docker 镜像体积
+# ==========================================
+
+# Node modules（会在容器内重新安装）
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# 环境变量（开发和测试）
+.env
+.env.local
+.env.development
+.env.test
+# 注意：.env.production 需要在运行时注入，不打包进镜像
+
+# 测试文件（生产环境不需要）
+tests/
+__tests__/
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+coverage/
+.nyc_output/
+jest.config.js
+jest.config.ts
+
+# 开发工具配置
+.git
+.gitignore
+.gitattributes
+.editorconfig
+.prettierrc
+.prettierignore
+.eslintrc*
+.eslintignore
+tsconfig.test.json
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 文档（可选，看需求）
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE.md
+docs/
+
+# 临时和日志文件
+dist/
+*.log
+*.tmp
+*.temp
+logs/
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# CI/CD 配置
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+
+# 其他
+*.bak
+*.backup
+.env.example

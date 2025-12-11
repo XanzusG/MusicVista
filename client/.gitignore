@@ -1,4 +1,17 @@
-# Logs
+# 依赖
+node_modules/
+
+# Vite 构建输出
+dist/
+dist-ssr/
+
+# 环境变量
+# 注意：项目允许提交 .env 文件
+# .env
+.env*.local
+!.env.example
+
+# 日志
 logs
 *.log
 npm-debug.log*
@@ -7,18 +20,26 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# node_modules
-dist
-dist-ssr
-*.local
+# 缓存
+.cache/
+.vite/
 
-# Editor directories and files
+# 编辑器
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+!.vscode/settings.json
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 测试覆盖率
+coverage/

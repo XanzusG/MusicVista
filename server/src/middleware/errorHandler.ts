@@ -53,7 +53,7 @@ export const errorHandler = (err: AppError, req: Request, res: Response, next: N
   }
 
   // 处理重复键错误（数据库层面）
-  if (err.code === 'SQLITE_CONSTRAINT_UNIQUE' || err.code === 19) {
+  if (err.code === 'SQLITE_CONSTRAINT_UNIQUE' || err.code === '23505') {
     statusCode = 409;
     message = '数据已存在';
     code = 'DUPLICATE_RESOURCE';

@@ -6,11 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:prod": "tsc -b && BUILD_MODE=prod vite build",
+    "build:prod": "cross-env BUILD_MODE=prod tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "install-deps": "npm install --prefer-offline",
-    "clean": "rm -rf node_modules package-lock.json pnpm-lock.yaml"
+    "clean": "rimraf node_modules package-lock.json dist",
+    "docker:build": "docker build -t musicvista-client .",
+    "docker:run": "docker run -p 5173:80 musicvista-client",
+    "docker:build:prod": "docker build --build-arg VITE_API_BASE_URL=https://your-api.com/api -t musicvista-client:prod .",
+    "deploy:build": "npm run clean && npm install && npm run build:prod",
+    "deploy:preview": "npm run build:prod && npm run preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -74,11 +78,13 @@
     "@types/react-router-dom": "^5",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "10.4.20",
+    "cross-env": "^10.1.0",
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
     "postcss": "8.4.49",
+    "rimraf": "^6.1.2",
     "tailwindcss": "v3.4.16",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.15.0",

@@ -6,17 +6,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 // 路由导入
-// import authRoutes from './routes/auth';
-// import userRoutes from './routes/users';
-// import likeRoutes from './routes/likes';
-// import lyricRoutes from './routes/lyrics';
-// import socialRoutes from './routes/social';
-// import musicRoutes from './routes/music';
 import artistRoutes from './routes/artists';
 import albumRoutes from './routes/albums';
 import trackRoutes from './routes/tracks';
 import insightRoutes from './routes/insights';
-// import genreRoutes from './routes/genres';
 
 // 中间件导入
 import { errorHandler, notFoundHandler, requestLogger } from './middleware/errorHandler';
@@ -54,11 +47,8 @@ class MusicVistaServer {
     // CORS配置
     this.app.use(cors({
       origin: process.env.FRONTEND_URL || [
-        'http://localhost:3000',
         'http://localhost:5173',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:5173',
-        'https://musicvista.space.minimaxi.com'
+        'http://127.0.0.1:5173'
       ],
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -108,17 +98,10 @@ class MusicVistaServer {
 
   private initializeRoutes(): void {
     // API路由
-    // this.app.use('/api/auth', authRoutes);
-    // this.app.use('/api/users', userRoutes);
-    // this.app.use('/api/likes', likeRoutes);
-    // this.app.use('/api/lyrics', lyricRoutes);
-    // this.app.use('/api/social', socialRoutes);
-    // this.app.use('/api/music', musicRoutes);
     this.app.use('/api/artists', artistRoutes);
     this.app.use('/api/albums', albumRoutes);
     this.app.use('/api/tracks', trackRoutes);
     this.app.use('/api/insights', insightRoutes);
-    // this.app.use('/api/genres', genreRoutes);
 
     // API信息路由
     this.app.get('/api', (req: Request, res: Response) => {
@@ -126,18 +109,11 @@ class MusicVistaServer {
         success: true,
         message: 'MusicVista API服务',
         version: '1.0.0',
-        documentation: 'API文档可以在 /api/docs 查看',
         endpoints: {
-          auth: '/api/auth',
-          users: '/api/users',
-          likes: '/api/likes',
-          lyrics: '/api/lyrics',
-          social: '/api/social',
-          music: '/api/music',
           artists: '/api/artists',
           albums: '/api/albums',
           tracks: '/api/tracks',
-          genres: '/api/genres'
+          insights: '/api/insights'
         },
         timestamp: new Date().toISOString()
       });
@@ -156,23 +132,18 @@ class MusicVistaServer {
     this.app.listen(this.port, () => {
       console.log(`
 ╔══════════════════════════════════════════════════════════╗
-║                    MusicVista API Server                  ║
+║                    MusicVista API Server                 ║
 ╠══════════════════════════════════════════════════════════╣
-║  🚀 Server running on: http://localhost:${this.port}          ║
-║  🌍 Environment: ${process.env.NODE_ENV || 'development'}                     ║
-║  📊 Health check: http://localhost:${this.port}/health       ║
-║  📖 API docs: http://localhost:${this.port}/api              ║
+║  🚀 Server running on: http://localhost:${this.port}             ║
+║  🌍 Environment: ${process.env.NODE_ENV || 'development'}                             ║
+║  📊 Health check: http://localhost:${this.port}/health           ║
+║  📖 API docs: http://localhost:${this.port}/api                  ║
 ╠══════════════════════════════════════════════════════════╣
-║  📡 API Endpoints:                                        ║
-║  ├─ 🔐 /api/auth        (认证相关)                       ║
-║  ├─ 👤 /api/users       (用户管理)                       ║
-║  ├─ ❤️  /api/likes      (收藏功能)                       ║
-║  ├─ 📝 /api/lyrics      (歌词搜索)                       ║
-║  ├─ 🎵 /api/music       (音乐分析)                       ║
+║  📡 API Endpoints:                                       ║
 ║  ├─ 🎤 /api/artists     (艺术家)                         ║
 ║  ├─ 💿 /api/albums      (专辑)                           ║
 ║  ├─ 🎶 /api/tracks      (歌曲)                           ║
-║  └─ 🔗 /api/social      (社交登录)                       ║
+║  └─ 📊 /api/insights    (数据洞察)                       ║
 ╚══════════════════════════════════════════════════════════╝
       `);
     });

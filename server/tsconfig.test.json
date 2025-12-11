@@ -3,7 +3,7 @@
     "target": "ES2020",
     "lib": ["ES2020"],
     "module": "commonjs",
-    "outDir": "./dist",
+    "outDir": "./test-dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -13,10 +13,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "removeComments": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -24,6 +20,7 @@
     "noUnusedParameters": false,
     "exactOptionalPropertyTypes": false,
     "noImplicitOverride": true,
+    "types": ["jest", "node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -35,13 +32,14 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*",
+    "**/*.test.ts",
+    "**/*.spec.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "tests/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts"
+    "test-dist"
   ]
 }
