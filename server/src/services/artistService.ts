@@ -458,10 +458,12 @@ export async function getGenreDistribution(params: GenreDistributionParams): Pro
         const query = `
             SELECT
                 genre,
-                COUNT(genre) AS artist_num
+                COUNT(*) AS artist_num
             FROM artist_genre
             WHERE artist_id = ANY($1::TEXT[])
+            AND genre IS NOT NULL
             GROUP BY genre
+            ORDER BY artist_num DESC
             LIMIT $2
         `;
         const queryParams = [artistIds, limit];
