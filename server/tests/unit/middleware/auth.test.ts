@@ -39,10 +39,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(401);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '缺少访问令牌',
+        message: 'Missing access token',
         error: {
           code: 'MISSING_TOKEN',
-          details: '需要在请求头中提供Bearer token'
+          details: 'Bearer token required in request header'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();
@@ -58,10 +58,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(403);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '无效的访问令牌',
+        message: 'Invalid access token',
         error: {
           code: 'INVALID_TOKEN',
-          details: '令牌已过期或无效'
+          details: 'Token is expired or invalid'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();
@@ -79,10 +79,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(403);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '用户不存在',
+        message: 'User not found',
         error: {
           code: 'USER_NOT_FOUND',
-          details: '令牌对应的用户不存在'
+          details: 'User associated with token does not exist'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();
@@ -100,10 +100,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(403);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '用户账户已被禁用',
+        message: 'User account is disabled',
         error: {
           code: 'USER_INACTIVE',
-          details: '用户账户处于非活跃状态'
+          details: 'User account is in inactive state'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();
@@ -170,10 +170,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(401);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '未认证',
+        message: 'Not authenticated',
         error: {
           code: 'UNAUTHENTICATED',
-          details: '需要认证才能访问此资源'
+          details: 'Authentication required to access this resource'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();
@@ -200,10 +200,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(401);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '未认证',
+        message: 'Not authenticated',
         error: {
           code: 'UNAUTHENTICATED',
-          details: '需要认证才能访问此资源'
+          details: 'Authentication required to access this resource'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();
@@ -241,10 +241,10 @@ describe('Auth Middleware', () => {
       expect(mockRes.status).toHaveBeenCalledWith(403);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        message: '权限不足',
+        message: 'Insufficient permissions',
         error: {
           code: 'INSUFFICIENT_PERMISSIONS',
-          details: '只能访问自己的资源'
+          details: 'Can only access your own resources'
         }
       });
       expect(mockNext).not.toHaveBeenCalled();

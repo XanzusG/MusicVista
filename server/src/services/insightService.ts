@@ -28,13 +28,13 @@ export interface ArtistEmotionVarietyData {
 }
 const basicStopWords = [
     '',
-    // 冠词
+    // Articles
     'a', 'an', 'the',
     
-    // 常见连词
+    // Common conjunctions
     'and', 'or', 'but', 'if', 'because', 'as', 'so', 'than', 'such',
     
-    // 代词
+    // Pronouns
     'i', 'me', 'my', 'mine', 'myself',
     'you', 'your', 'yours', 'yourself', 'yourselves',
     'he', 'him', 'his', 'himself',
@@ -44,7 +44,7 @@ const basicStopWords = [
     'they', 'them', 'their', 'theirs', 'themselves',
     'this', 'that', 'these', 'those',
     
-    // 介词
+    // Prepositions
     'about', 'above', 'across', 'after', 'against', 'along', 'among', 'around',
     'at', 'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond',
     'by', 'down', 'during', 'except', 'for', 'from', 'in', 'inside', 'into',
@@ -52,23 +52,23 @@ const basicStopWords = [
     'since', 'through', 'throughout', 'till', 'to', 'toward', 'under',
     'underneath', 'until', 'up', 'upon', 'with', 'within', 'without',
     
-    // 助动词和系动词
+    // Auxiliary and linking verbs
     'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
     'have', 'has', 'had', 'having',
     'do', 'does', 'did', 'doing',
     
-    // 情态动词
+    // Modal verbs
     'can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would',
     
-    // 副词
+    // Adverbs
     'very', 'too', 'just', 'then', 'there', 'here', 'when', 'where', 'why',
     'how', 'now', 'then', 'again', 'also', 'even', 'only', 'not', 'no',
     
-    // 其他常见词
+    // Other common words
     'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some',
     'same', 'own', 'else', 'whether', 'while', 'though', 'although',
     
-    // 数量词
+    // Quantifiers
     'one', 'two', 'three', 'first', 'second', 'third', 'many', 'much',
     'more', 'most', 'less', 'least', 'few', 'fewer', 'fewest'
 ];
@@ -211,13 +211,13 @@ export async function getPopWords(): Promise<{ word: string; cnt: number }[]> {
             words as (
                 SELECT lower(trim(regexp_replace(word, '[^a-zA-Z]+', '', 'g'))) AS cleaned_word
                 FROM lyrics,
-                    regexp_split_to_table(lyrics, E'[\\s\\n\\r\\t]+') AS word   -- 使用PostgreSQL的转义语法
+                    regexp_split_to_table(lyrics, E'[\\s\\n\\r\\t]+') AS word   -- Use PostgreSQL escape syntax
                 WHERE length(trim(regexp_replace(word, '[^a-zA-Z]+', '', 'g'))) >= 3
                 AND lower(trim(regexp_replace(word, '[^a-zA-Z]+', '', 'g'))) <> ANY ($1::TEXT[])
             )
             select cleaned_word as word, count(cleaned_word) as cnt
             from words
-            -- where cleaned_word ~ '^[a-z]+$'  -- 确保只包含字母
+            -- where cleaned_word ~ '^[a-z]+$'  -- Ensure only letters
             group by cleaned_word
             order by cnt desc
             limit 20;

@@ -5,16 +5,16 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// 路由导入
+// Route imports
 import artistRoutes from './routes/artists';
 import albumRoutes from './routes/albums';
 import trackRoutes from './routes/tracks';
 import insightRoutes from './routes/insights';
 
-// 中间件导入
+// Middleware imports
 import { errorHandler, notFoundHandler, requestLogger } from './middleware/errorHandler';
 
-// 加载环境变量
+// Load environment variables
 dotenv.config();
 
 class MusicVistaServer {
@@ -31,9 +31,9 @@ class MusicVistaServer {
   }
 
   private initializeMiddleware(): void {
-    // 安全中间件
+    // Security middleware
     this.app.use(helmet({
-      crossOriginEmbedderPolicy: false, // 允许跨域嵌入
+      crossOriginEmbedderPolicy: false, // Allow cross-origin embedding
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
@@ -44,7 +44,7 @@ class MusicVistaServer {
       },
     }));
 
-    // CORS配置
+    // CORS configuration
     this.app.use(cors({
       origin: process.env.FRONTEND_URL || [
         'http://localhost:5173',
@@ -64,7 +64,7 @@ class MusicVistaServer {
       exposedHeaders: ['X-Total-Count', 'X-Page-Count']
     }));
 
-    // 请求解析中间件
+    // Request parsing middleware
     this.app.use(express.json({ 
       limit: '10mb',
       strict: true
@@ -74,20 +74,20 @@ class MusicVistaServer {
       limit: '10mb' 
     }));
 
-    // 静态文件服务（用于提供上传的文件等）
+    // Static file service (for serving uploaded files, etc.)
     this.app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-    // 日志中间件
+    // Logging middleware
     if (process.env.NODE_ENV !== 'test') {
       this.app.use(requestLogger);
       this.app.use(morgan('combined'));
     }
 
-    // 基本健康检查路由
+    // Basic health check route
     this.app.get('/health', (req: Request, res: Response) => {
       res.json({
         success: true,
-        message: 'MusicVista API服务器运行正常',
+        message: 'MusicVista API server is running normally',
         timestamp: new Date().toISOString(),
         version: '1.0.0',
         environment: process.env.NODE_ENV || 'development',
@@ -97,17 +97,17 @@ class MusicVistaServer {
   }
 
   private initializeRoutes(): void {
-    // API路由
+    // API routes
     this.app.use('/api/artists', artistRoutes);
     this.app.use('/api/albums', albumRoutes);
     this.app.use('/api/tracks', trackRoutes);
     this.app.use('/api/insights', insightRoutes);
 
-    // API信息路由
+    // API information route
     this.app.get('/api', (req: Request, res: Response) => {
       res.json({
         success: true,
-        message: 'MusicVista API服务',
+        message: 'MusicVista API Service',
         version: '1.0.0',
         endpoints: {
           artists: '/api/artists',
@@ -119,12 +119,12 @@ class MusicVistaServer {
       });
     });
 
-    // 处理未匹配路由（404）
+    // Handle unmatched routes (404)
     this.app.use('*', notFoundHandler);
   }
 
   private initializeErrorHandling(): void {
-    // 全局错误处理中间件
+    // Global error handling middleware
     this.app.use(errorHandler);
   }
 
@@ -140,10 +140,10 @@ class MusicVistaServer {
 ║  📖 API docs: http://localhost:${this.port}/api                  ║
 ╠══════════════════════════════════════════════════════════╣
 ║  📡 API Endpoints:                                       ║
-║  ├─ 🎤 /api/artists     (艺术家)                         ║
-║  ├─ 💿 /api/albums      (专辑)                           ║
-║  ├─ 🎶 /api/tracks      (歌曲)                           ║
-║  └─ 📊 /api/insights    (数据洞察)                       ║
+║  ├─ 🎤 /api/artists     (Artists)                        ║
+║  ├─ 💿 /api/albums      (Albums)                         ║
+║  ├─ 🎶 /api/tracks      (Tracks)                         ║
+║  └─ 📊 /api/insights    (Insights)                       ║
 ╚══════════════════════════════════════════════════════════╝
       `);
     });
@@ -154,29 +154,29 @@ class MusicVistaServer {
   }
 }
 
-// 错误处理
+// Error handling
 process.on('uncaughtException', (error: Error) => {
-  console.error('未捕获的异常:', error);
+  console.error('Uncaught exception:', error);
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
-  console.error('未处理的Promise拒绝:', reason);
+  console.error('Unhandled Promise rejection:', reason);
   process.exit(1);
 });
 
-// 优雅关闭
+// Graceful shutdown
 process.on('SIGTERM', () => {
-  console.log('收到SIGTERM信号，正在优雅关闭服务器...');
+  console.log('SIGTERM signal received: gracefully shutting down server...');
   process.exit(0);
 });
 
 process.on('SIGINT', () => {
-  console.log('收到SIGINT信号，正在优雅关闭服务器...');
+  console.log('SIGINT signal received: gracefully shutting down server...');
   process.exit(0);
 });
 
-// 启动服务器（仅在非测试环境中）
+// Start server (only in non-test environments)
 if (require.main === module) {
   const server = new MusicVistaServer();
   server.listen();

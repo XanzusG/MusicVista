@@ -24,6 +24,7 @@
     "noUnusedParameters": false,
     "exactOptionalPropertyTypes": false,
     "noImplicitOverride": true,
+    "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -35,13 +36,11 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*"
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "tests/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts"
+    "dist"
   ]
 }

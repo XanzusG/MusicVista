@@ -5,10 +5,10 @@ import { sendSuccess, sendError, handleControllerError } from '../utils/response
 import { on } from 'events';
 
 /**
- * 根据查询条件搜索艺术家
- * @param {Request} req - Express请求对象，包含查询参数
- * @param {Response} res - Express响应对象
- * @throws {Error} 当查询过程中发生错误时抛出
+ * Search artists based on query conditions
+ * @param {Request} req - Express request object containing query parameters
+ * @param {Response} res - Express response object
+ * @throws {Error} Throws error when query process fails
  */
 export async function searchArtists(req: Request, res: Response): Promise<void> {
   try {
@@ -50,7 +50,7 @@ export async function getArtistById(req: Request, res: Response): Promise<void> 
     const artist = await ArtistService.getArtists({ ids: [id] });
 
     if (!artist) {
-      sendError(res, '艺术家不存在', 404);
+      sendError(res, 'Artist does not exist', 404);
       return;
     }
 
@@ -105,7 +105,7 @@ export async function getRangeAnalytics(req: Request, res: Response): Promise<vo
     };
     const artists = await ArtistService.getArtists(params);
     if (!artists) {
-      sendError(res, '没有找到相关艺术家', 404);
+      sendError(res, 'No related artists found', 404);
       return;
     }
     const artistIds = artists.map(artist => artist.id);

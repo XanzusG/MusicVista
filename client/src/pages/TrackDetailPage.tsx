@@ -34,7 +34,7 @@ export function TrackDetailPage() {
         if (trackResponse.success && trackResponse.data) {
           setTrack(trackResponse.data);
 
-          // 获取专辑信息
+          // Get album information
           // if (trackResponse.data.album_id) {
           //   const albumResponse = await getAlbumById(trackResponse.data.album_id);
           //   if (albumResponse.success && albumResponse.data) {
@@ -42,7 +42,7 @@ export function TrackDetailPage() {
           //   }
           // }
 
-          // // 获取艺术家信息
+          // // Get artist information
           // if (trackResponse.data.artist_ids && trackResponse.data.artist_ids.length > 0) {
           //   const artistPromises = trackResponse.data.artist_ids.map(artistId => 
           //     getArtistById(artistId)
@@ -54,7 +54,7 @@ export function TrackDetailPage() {
           //   setArtists(validArtists);
           // }
 
-          // 获取相似歌曲
+          // Get similar tracks
           const similarTracksResponse = await getSimilarTracks(id, 3);
           if (similarTracksResponse.success && similarTracksResponse.data) {
             setSimilarTracks(similarTracksResponse.data);

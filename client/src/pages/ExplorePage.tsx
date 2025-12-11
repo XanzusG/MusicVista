@@ -232,14 +232,14 @@ export function ExplorePage() {
                 className="flex items-center gap-2 px-4 py-2 rounded-md text-body font-medium transition-all hover:bg-primary-50 hover:text-primary-700"
               >
                 <BookOpen className="w-5 h-5" />
-                歌词搜索
+                Lyrics Search
               </Link> */}
               {/* <Link
                 to="/trending-lyrics"
                 className="flex items-center gap-2 px-4 py-2 rounded-md text-body font-medium transition-all hover:bg-primary-50 hover:text-primary-700"
               >
                 <TrendingUp className="w-5 h-5" />
-                热门歌词
+                Trending Lyrics
               </Link> */}
               <button
                 onClick={() => setView('artists')}

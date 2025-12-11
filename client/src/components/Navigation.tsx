@@ -93,7 +93,7 @@ export function Navigation() {
                 }`}
               >
                 <TrendingUp className="w-4 h-4" />
-                收藏统计
+                Favorites Stats
               </Link>
             )} */}
           </div>

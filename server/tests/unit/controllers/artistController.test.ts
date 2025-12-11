@@ -120,7 +120,7 @@ describe('ArtistController', () => {
       expect(mockRes.status).toHaveBeenCalledWith(404);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: false,
-        error: '艺术家不存在',
+        error: 'Artist not found',
         timestamp: expect.any(String),
       });
     });

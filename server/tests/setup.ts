@@ -1,23 +1,23 @@
 import 'jest';
 import { pool } from '../src/database/connection';
 
-// 测试环境设置
+// Test environment setup
 beforeAll(async () => {
-  // 设置测试环境变量
+  // Set test environment variables
   process.env.NODE_ENV = 'test';
   process.env.DB_NAME = process.env.TEST_DB_NAME || 'musicvista_test';
 });
 
 afterAll(async () => {
-  // 关闭数据库连接
+  // Close database connection
   await pool.end();
 });
 
-// 每个测试前清理数据库
+// Clean up database before each test
 beforeEach(async () => {
-  // 清理测试数据的逻辑可以在这里添加
-  // 注意：实际使用时需要根据您的数据库结构来编写清理逻辑
+  // Logic for cleaning test data can be added here
+  // Note: You need to write cleanup logic according to your database structure
 });
 
-// 全局测试超时时间
+// Global test timeout
 jest.setTimeout(30000);

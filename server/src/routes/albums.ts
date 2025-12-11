@@ -5,25 +5,25 @@ import * as trackController from '../controllers/trackController';
 const router = Router();
 
 /**
- * 专辑路由
- * 所有路由都映射到 /api/albums
+ * Album routes
+ * All routes are mapped to /api/albums
  */
 
-// GET /api/albums - 获取专辑列表
+// GET /api/albums - Get album list
 router.get('/', albumController.getAllAlbums);
 
-// GET /api/albums/recent - 获取最新专辑
+// GET /api/albums/recent - Get recent albums
 router.get('/recent', albumController.getRecentAlbums);
 
-// GET /api/albums/search - 搜索专辑
+// GET /api/albums/search - Search albums
 router.get('/search', albumController.searchAlbums);
 
 router.get('/count', albumController.getAlbumCount);
 
-// GET /api/albums/artist/:artistId - 根据艺术家获取专辑
+// GET /api/albums/artist/:artistId - Get albums by artist
 // router.get('/artist/:artistId', albumController.getAlbumsByArtist);
 
-// GET /api/albums/:id - 获取专辑详情
+// GET /api/albums/:id - Get album details
 router.get('/:id', albumController.getAlbumById);
 
 router.get('/:id/tracks', trackController.getTracksByAlbum);

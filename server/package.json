@@ -1,7 +1,7 @@
 {
   "name": "musicvista-server",
   "version": "1.0.0",
-  "description": "MusicVista后端API服务器",
+  "description": "MusicVista Backend API Server",
   "main": "dist/server.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only src/server.ts",

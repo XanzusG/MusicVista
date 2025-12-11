@@ -3,14 +3,14 @@ import react from "@vitejs/plugin-react"
 import { defineConfig, loadEnv } from "vite"
 
 export default defineConfig(({ mode }) => {
-  // 加载环境变量
+  // Load environment variables
   const env = loadEnv(mode, process.cwd(), '')
   const isProd = env.BUILD_MODE === 'prod'
 
   return {
     plugins: [
       react({
-        // React 优化配置
+        // React optimization config
         babel: {
           plugins: isProd ? [
             ['transform-remove-console', { exclude: ['error', 'warn'] }]
@@ -32,38 +32,38 @@ export default defineConfig(({ mode }) => {
       },
     },
 
-    // 构建优化
+    // Build optimization
     build: {
-      // 目标浏览器
+      // Target browsers
       target: 'es2015',
       
-      // 输出目录
+      // Output directory
       outDir: 'dist',
       
-      // 资源目录
+      // Assets directory
       assetsDir: 'assets',
       
-      // 块大小警告限制 (KB)
+      // Chunk size warning limit (KB)
       chunkSizeWarningLimit: 1000,
       
-      // 最小化
+      // Minification
       minify: isProd ? 'esbuild' : false,
       
       // Source Map
       sourcemap: !isProd,
       
-      // CSS 代码分割
+      // CSS code splitting
       cssCodeSplit: true,
       
-      // Rollup 选项
+      // Rollup options
       rollupOptions: {
         output: {
-          // 手动分块策略
+          // Manual chunk strategy
           manualChunks: {
-            // React 相关
+            // React related
             'react-vendor': ['react', 'react-dom', 'react-router-dom'],
             
-            // UI 组件库
+            // UI component library
             'ui-vendor': [
               '@radix-ui/react-dialog',
               '@radix-ui/react-dropdown-menu',
@@ -72,10 +72,10 @@ export default defineConfig(({ mode }) => {
               '@radix-ui/react-tooltip'
             ],
             
-            // 图表库
+            // Chart libraries
             'chart-vendor': ['chart.js', 'react-chartjs-2', 'recharts'],
             
-            // 工具库
+            // Utility libraries
             'util-vendor': [
               'date-fns',
               'clsx',
@@ -84,11 +84,11 @@ export default defineConfig(({ mode }) => {
               'lucide-react'
             ],
             
-            // 音乐相关（内部模块）
+            // Music related (internal modules)
             // 'music-vendor': ['lyrics-api', 'like-api', 'useApi']
           },
           
-          // 文件名格式
+          // File name format
           chunkFileNames: (chunkInfo) => {
             const facadeModuleId = chunkInfo.facadeModuleId ? 
               chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '').replace('.ts', '') : 
@@ -112,7 +112,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       
-      // 压缩选项
+      // Compression options
       terserOptions: isProd ? {
         compress: {
           drop_console: true,
@@ -127,30 +127,30 @@ export default defineConfig(({ mode }) => {
         },
       } : undefined,
       
-      // 报告压缩大小
+      // Report compressed size
       reportCompressedSize: isProd,
       
-      // 清理 dist 目录
+      // Clean dist directory
       emptyOutDir: true,
     },
 
-    // 服务器配置
+    // Server configuration
     server: {
       port: 5173,
       host: true,
       open: true,
       
-      // 开发服务器优化
+      // Dev server optimization
       hmr: {
         overlay: false,
       },
       
-      // 代理配置 - 统一使用server服务 (端口3001)
+      // Proxy configuration - use server service (port 3001)
       proxy: {
         '/api': {
           target: 'http://localhost:3001',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '/api'), // 保持/api路径
+          rewrite: (path) => path.replace(/^\/api/, '/api'), // Keep /api path
         },
         '/auth': {
           target: 'http://localhost:3001',
@@ -180,14 +180,14 @@ export default defineConfig(({ mode }) => {
       }
     },
 
-    // 预览配置
+    // Preview configuration
     preview: {
       port: 4173,
       host: true,
       open: false,
     },
 
-    // 依赖优化
+    // Dependency optimization
     optimizeDeps: {
       include: [
         'react',
@@ -200,39 +200,39 @@ export default defineConfig(({ mode }) => {
         'tailwind-merge'
       ],
       
-      // 预构建优化
+      // Pre-build optimization
       esbuildOptions: {
         target: 'es2015',
       }
     },
 
-    // CSS 配置
+    // CSS configuration
     css: {
-      // CSS 预处理器配置
+      // CSS preprocessor config
       preprocessorOptions: {
         scss: {
           additionalData: `@import "@/styles/variables.scss";`
         }
       },
       
-      // CSS 代码分割
+      // CSS code splitting
       codeSplit: true,
       
-      // 提取 CSS
+      // Extract CSS
       extract: isProd,
       
-      // PostCSS 配置
+      // PostCSS configuration
       postcss: './postcss.config.js'
     },
 
-    // 定义全局常量
+    // Define global constants
     define: {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
       __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
       __DEV__: !isProd,
     },
 
-    // 实验性功能
+    // Experimental features
     experimental: {
       renderBuiltUrl(filename, { hostType }) {
         if (hostType === 'js') {
@@ -243,10 +243,10 @@ export default defineConfig(({ mode }) => {
       }
     },
 
-    // 环境变量前缀
+    // Environment variable prefix
     envPrefix: 'VITE_',
 
-    // Worker 配置
+    // Worker configuration
     worker: {
       format: 'es',
     },

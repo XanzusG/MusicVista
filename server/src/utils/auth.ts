@@ -12,7 +12,7 @@ export const jwtService = {
     const secret = process.env.JWT_SECRET || 'your-secret-key';
     const expiresIn = process.env.JWT_EXPIRES_IN || '15m';
     
-    // 使用类型断言来处理 jwt.sign 的类型问题
+    // Use type assertion to handle jwt.sign type issues
     return jwt.sign(payload, secret, { expiresIn: expiresIn as any });
   },
 
@@ -20,7 +20,7 @@ export const jwtService = {
     const secret = process.env.JWT_REFRESH_SECRET || 'your-refresh-secret';
     const expiresIn = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
     
-    // 使用类型断言来处理 jwt.sign 的类型问题
+    // Use type assertion to handle jwt.sign type issues
     return jwt.sign(payload, secret, { expiresIn: expiresIn as any });
   },
 

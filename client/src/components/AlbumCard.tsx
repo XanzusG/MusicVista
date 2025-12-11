@@ -38,7 +38,7 @@ export function AlbumCard({ album }: AlbumCardProps) {
         </div>
       </Link>
       
-      {/* 收藏按钮 */}
+      {/* Favorite button */}
       {/* <div className="absolute top-2 right-2">
         <LikeButton
           objectType="albums"

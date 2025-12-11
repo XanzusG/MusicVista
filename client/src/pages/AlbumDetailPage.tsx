@@ -23,7 +23,7 @@ export function AlbumDetailPage() {
         setLoading(true);
         setError(null);
 
-        // 并行加载专辑、音轨和艺术家数据
+        // Load album, tracks, and artist data in parallel
         const [albumResponse, tracksResponse] = await Promise.all([
           getAlbumById(id),
           getTracksByAlbum(id)
@@ -35,7 +35,7 @@ export function AlbumDetailPage() {
           if (tracksResponse.success && tracksResponse.data) {
             setTracks(tracksResponse.data);
 
-            // 获取第一个艺术家信息（假设专辑可能有多位艺术家，取第一个）
+            // Get first artist information (assuming album may have multiple artists, take the first one)
             // if (albumResponse.data.artist_ids && albumResponse.data.artist_ids.length > 0) {
             //   const artistResponse = await getArtistById(albumResponse.data.artist_ids[0]);
             //   if (artistResponse.success && artistResponse.data) {

@@ -3,28 +3,28 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// 数据库连接配置
+// Database connection configuration
 const poolConfig: PoolConfig = {
-  // 使用单独的连接参数而不是connectionString，以避免SSL配置冲突
+  // Use separate connection parameters instead of connectionString to avoid SSL configuration conflicts
   host: process.env.DB_HOST,
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  // 连接池配置
-  max: 20, // 最大连接数
-  idleTimeoutMillis: 30000, // 空闲连接超时时间
-  connectionTimeoutMillis: 100000, // 连接超时时间
-  // SSL配置 - AWS RDS需要SSL，但允许自签名证书
+  // Connection pool configuration
+  max: 20, // Maximum number of connections
+  idleTimeoutMillis: 30000, // Idle connection timeout
+  connectionTimeoutMillis: 100000, // Connection timeout
+  // SSL configuration - AWS RDS requires SSL but allows self-signed certificates
   ssl: {
-    rejectUnauthorized: false // 允许自签名证书
+    rejectUnauthorized: false // Allow self-signed certificates
   }
 };
 
-// 创建连接池
+// Create connection pool
 export const pool = new Pool(poolConfig);
 
-// 测试连接
+// Test connection
 pool.on('connect', () => {
   console.log('Database connected successfully');
 });
@@ -34,7 +34,7 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
-// 优雅关闭
+// Graceful shutdown
 process.on('SIGINT', async () => {
   await pool.end();
   console.log('Database pool has ended');

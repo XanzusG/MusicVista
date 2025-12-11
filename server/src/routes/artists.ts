@@ -6,30 +6,30 @@ import * as trackController from '../controllers/trackController';
 const router = Router();
 
 /**
- * 艺术家路由
- * 所有路由都映射到 /api/artists
+ * Artist routes
+ * All routes are mapped to /api/artists
  */
 
-// GET /api/artists - 获取艺术家列表
+// GET /api/artists - Get artist list
 // router.get('/', artistController.getAllArtists);
 
-// GET /api/artists/trending - 获取热门艺术家
+// GET /api/artists/trending - Get trending artists
 router.get('/trending', artistController.getTrendingArtists);
 
-// GET /api/artists/search - 搜索艺术家
+// GET /api/artists/search - Search artists
 router.get('/search', artistController.searchArtists);
 
 router.get('/count', artistController.getArtistCount);
 
-// GET /api/artists/genre/:genreName - 根据流派获取艺术家
+// GET /api/artists/genre/:genreName - Get artists by genre
 // router.get('/genre/:genreName', artistController.getArtistsByGenre);
 
-// GET /api/artists/genre-distribution - 获取艺术家流派分布
+// GET /api/artists/genre-distribution - Get artist genre distribution
 // router.get('/analytics/genre', artistController.getGenreDistribution);
 
 router.get('/analytics', artistController.getRangeAnalytics);
 
-// GET /api/artists/:id - 获取艺术家详情
+// GET /api/artists/:id - Get artist details
 router.get('/:id', artistController.getArtistById);
 
 router.get('/:id/collaborators', artistController.getCollaborators);

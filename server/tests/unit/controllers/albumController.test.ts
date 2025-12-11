@@ -54,7 +54,7 @@ describe('AlbumController', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(404);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        error: '专辑不存在',
+        error: 'Album not found',
         timestamp: expect.any(String)
       });
     });

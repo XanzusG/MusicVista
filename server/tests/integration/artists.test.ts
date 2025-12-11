@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import request from 'supertest';
 import express from 'express';
 import artistRoutes from '../../src/routes/artists';
@@ -102,7 +103,7 @@ describe('Artists API Integration Tests', () => {
 
       expect(response.body).toEqual({
         success: false,
-        error: '艺术家不存在',
+        error: 'Artist not found',
         timestamp: expect.any(String),
       });
     });

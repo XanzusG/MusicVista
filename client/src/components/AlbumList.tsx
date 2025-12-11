@@ -13,7 +13,7 @@ export interface Album {
 }
 
 interface AlbumListProps {
-  albums: Album[]; // 当前页的专辑数据
+  albums: Album[]; // Album data for current page
   loading?: boolean;
   totalItems?: number;
   currentPage?: number;
@@ -34,11 +34,11 @@ export function AlbumList({
   const [internalCurrentPage, setInternalCurrentPage] = useState(externalCurrentPage);
   const [internalItemsPerPage, setInternalItemsPerPage] = useState(externalItemsPerPage);
 
-  // 使用外部传入的值或内部状态
+  // Use external value or internal state
   const currentPage = onPageChange ? externalCurrentPage : internalCurrentPage;
   const itemsPerPage = onPageSizeChange ? externalItemsPerPage : internalItemsPerPage;
   
-  // 计算总页数
+  // Calculate total pages
   const totalPages = totalItems > 0 ? Math.ceil(totalItems / itemsPerPage) : 0;
 
   const handlePageChange = (page: number) => {
@@ -54,11 +54,11 @@ export function AlbumList({
       onPageSizeChange(newPageSize);
     } else {
       setInternalItemsPerPage(newPageSize);
-      setInternalCurrentPage(1); // 重置到第一页
+      setInternalCurrentPage(1); // Reset to first page
     }
   };
 
-  // 同步外部状态变化
+  // Synchronize external state changes
   useEffect(() => {
     if (onPageChange) {
       setInternalCurrentPage(externalCurrentPage);
@@ -71,7 +71,7 @@ export function AlbumList({
     }
   }, [externalItemsPerPage, onPageSizeChange]);
 
-  // 计算当前页显示范围
+  // Calculate current page display range
   const startIndex = totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 1;
   const endIndex = totalItems > 0 ? Math.min(currentPage * itemsPerPage, totalItems) : albums.length;
 

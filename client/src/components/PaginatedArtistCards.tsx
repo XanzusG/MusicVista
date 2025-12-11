@@ -3,7 +3,7 @@ import { ArtistCard } from './ArtistCard';
 import { Artist } from '../lib/artistApi';
 
 interface PaginatedArtistCardsProps {
-  artists: Artist[]; // 当前页的艺术家数据
+  artists: Artist[]; // Artist data for current page
   loading?: boolean;
   title?: string;
   currentPage?: number;
@@ -26,11 +26,11 @@ export function PaginatedArtistCards({
   const [internalCurrentPage, setInternalCurrentPage] = useState(externalCurrentPage);
   const [internalItemsPerPage, setInternalItemsPerPage] = useState(externalItemsPerPage);
 
-  // 使用外部传入的值或内部状态
+  // Use external value or internal state
   const currentPage = onPageChange ? externalCurrentPage : internalCurrentPage;
   const itemsPerPage = onPageSizeChange ? externalItemsPerPage : internalItemsPerPage;
   
-  // 计算总页数
+  // Calculate total pages
   const totalPages = totalItems > 0 ? Math.ceil(totalItems / itemsPerPage) : 0;
 
   const handlePageChange = (page: number) => {
@@ -46,11 +46,11 @@ export function PaginatedArtistCards({
       onPageSizeChange(newPageSize);
     } else {
       setInternalItemsPerPage(newPageSize);
-      setInternalCurrentPage(1); // 重置到第一页
+      setInternalCurrentPage(1); // Reset to first page
     }
   };
 
-  // 同步外部状态变化
+  // Synchronize external state changes
   useEffect(() => {
     if (onPageChange) {
       setInternalCurrentPage(externalCurrentPage);
@@ -63,7 +63,7 @@ export function PaginatedArtistCards({
     }
   }, [externalItemsPerPage, onPageSizeChange]);
 
-  // 计算当前页显示范围
+  // Calculate current page display range
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -99,8 +99,6 @@ export function PaginatedArtistCards({
       {title && (
         <h2 className="text-h3 font-semibold text-neutral-900">{title}</h2>
       )}
-
-      {/* Artist Cards Grid - 直接显示当前页的artists */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {artists.map((artist) => (
           <ArtistCard key={artist.id} artist={artist} />

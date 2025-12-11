@@ -8,7 +8,7 @@ export async function getAlbumById(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
         const album = await AlbumService.getAlbumById(id);
         if (!album) {
-            sendError(res, '专辑不存在', 404);
+            sendError(res, 'Album does not exist', 404);
             return;
         }
         sendSuccess(res, album);

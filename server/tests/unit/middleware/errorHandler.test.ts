@@ -107,7 +107,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(400);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '请求数据验证失败',
+        message: 'Request data validation failed',
         error: {
           code: 'VALIDATION_ERROR'
         }
@@ -123,7 +123,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(401);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '无效的令牌',
+        message: 'Invalid token',
         error: {
           code: 'INVALID_TOKEN'
         }
@@ -139,7 +139,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(401);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '令牌已过期',
+        message: 'Token expired',
         error: {
           code: 'TOKEN_EXPIRED'
         }
@@ -155,7 +155,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(404);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '资源未找到',
+        message: 'Resource not found',
         error: {
           code: 'NOT_FOUND'
         }
@@ -171,7 +171,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(409);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '数据已存在',
+        message: 'Data already exists',
         error: {
           code: 'DUPLICATE_RESOURCE'
         }
@@ -187,7 +187,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(409);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '数据已存在',
+        message: 'Data already exists',
         error: {
           code: 'DUPLICATE_RESOURCE'
         }
@@ -203,7 +203,7 @@ describe('Error Handler Middleware', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(403);
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '权限不足',
+        message: 'Insufficient permissions',
         error: {
           code: 'INSUFFICIENT_PERMISSIONS'
         }
@@ -251,7 +251,7 @@ describe('Error Handler Middleware', () => {
       
       expect(mockResponse.json).toHaveBeenCalledWith({
         success: false,
-        message: '服务器内部错误',
+        message: 'Internal server error',
         error: {
           code: 'INTERNAL_ERROR'
         }
@@ -265,7 +265,7 @@ describe('Error Handler Middleware', () => {
       
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
-          message: '路由 /test-route 未找到',
+          message: 'Route /test-route not found',
           statusCode: 404,
           code: 'ROUTE_NOT_FOUND'
         })

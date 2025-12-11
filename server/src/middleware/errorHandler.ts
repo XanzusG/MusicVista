@@ -14,63 +14,63 @@ export const createError = (message: string, statusCode: number = 500, code?: st
   return error;
 };
 
-// 全局错误处理中间件
+// Global error handling middleware
 export const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction): void => {
   let statusCode = err.statusCode || 500;
-  let message = err.message || '服务器内部错误';
+  let message = err.message || 'Internal server error';
   let code = err.code || 'INTERNAL_ERROR';
   let details = err.details;
 
-  // 开发环境下的错误详情
+  // Error details in development environment
   const isDevelopment = process.env.NODE_ENV !== 'production';
 
-  // 处理验证错误
+  // Handle validation errors
   if (err.name === 'ValidationError') {
     statusCode = 400;
-    message = '请求数据验证失败';
+    message = 'Request data validation failed';
     code = 'VALIDATION_ERROR';
-    details = err.details || '输入数据不符合要求';
+    details = err.details || 'Input data does not meet requirements';
   }
 
-  // 处理JWT错误
+  // Handle JWT errors
   if (err.name === 'JsonWebTokenError') {
     statusCode = 401;
-    message = '无效的令牌';
+    message = 'Invalid token';
     code = 'INVALID_TOKEN';
   }
 
   if (err.name === 'TokenExpiredError') {
     statusCode = 401;
-    message = '令牌已过期';
+    message = 'Token expired';
     code = 'TOKEN_EXPIRED';
   }
 
-  // 处理文件未找到错误
+  // Handle not found errors
   if (err.name === 'NotFoundError') {
     statusCode = 404;
-    message = '资源未找到';
+    message = 'Resource not found';
     code = 'NOT_FOUND';
   }
 
-  // 处理重复键错误（数据库层面）
+  // Handle duplicate key errors (database level)
   if (err.code === 'SQLITE_CONSTRAINT_UNIQUE' || err.code === '23505') {
     statusCode = 409;
-    message = '数据已存在';
+    message = 'Data already exists';
     code = 'DUPLICATE_RESOURCE';
-    details = '请求的资源已存在';
+    details = 'The requested resource already exists';
   }
 
-  // 处理权限错误
+  // Handle permission errors
   if (err.name === 'UnauthorizedError') {
     statusCode = 403;
-    message = '权限不足';
+    message = 'Insufficient permissions';
     code = 'INSUFFICIENT_PERMISSIONS';
   }
 
-  // 设置响应头
+  // Set response headers
   res.setHeader('Content-Type', 'application/json');
   
-  // 构建错误响应
+  // Build error response
   const errorResponse: any = {
     success: false,
     message,
@@ -79,7 +79,7 @@ export const errorHandler = (err: AppError, req: Request, res: Response, next: N
     }
   };
 
-  // 在开发环境中包含详细信息和错误堆栈
+  // Include details and error stack in development environment
   if (isDevelopment) {
     errorResponse.error.details = details;
     if (err.stack) {
@@ -90,20 +90,20 @@ export const errorHandler = (err: AppError, req: Request, res: Response, next: N
   res.status(statusCode).json(errorResponse);
 };
 
-// 404处理中间件
+// 404 handling middleware
 export const notFoundHandler = (req: Request, res: Response, next: NextFunction): void => {
-  const error = createError(`路由 ${req.originalUrl} 未找到`, 404, 'ROUTE_NOT_FOUND');
+  const error = createError(`Route ${req.originalUrl} not found`, 404, 'ROUTE_NOT_FOUND');
   next(error);
 };
 
-// 异步错误处理包装器
+// Async error handling wrapper
 export const asyncHandler = (fn: Function) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
 
-// 请求日志记录中间件
+// Request logging middleware
 export const requestLogger = (req: Request, res: Response, next: NextFunction): void => {
   const start = Date.now();
   
@@ -112,7 +112,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
     const { method, url, ip } = req;
     const { statusCode } = res;
     
-    // 根据状态码设置日志级别颜色
+    // Set log level based on status code
     const level = statusCode >= 400 ? 'ERROR' : statusCode >= 300 ? 'WARN' : 'INFO';
     
     console.log(`[${new Date().toISOString()}] ${level} ${method} ${url} - ${statusCode} - ${duration}ms - IP: ${ip}`);

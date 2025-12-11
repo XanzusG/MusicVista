@@ -1,231 +1,219 @@
-# MusicVista 后端测试指南
+# MusicVista Backend Testing Guide
 
-本文档说明了 MusicVista 后端项目的测试结构和运行方式。
+This document explains the testing structure and execution methods for the MusicVista backend project.
 
-## 📁 测试目录结构
+## 📁 Test Directory Structure
 
 ```
 tests/
-├── __mocks__/           # Mock 文件
-│   └── pg.ts           # PostgreSQL Mock
-├── database/           # 测试数据库配置
+├── __mocks__/           # Mock files
+├── database/            # Test database configuration
 │   └── testDbConfig.ts
-├── integration/        # 集成测试
+├── integration/         # Integration tests
 │   └── artists.test.ts
-├── unit/              # 单元测试
-│   ├── controllers/   # 控制器测试
-│   ├── middleware/    # 中间件测试
-│   ├── services/      # 服务层测试
-│   └── utils/         # 工具函数测试
-├── setup.ts           # 测试环境设置
-├── runTests.js        # 测试运行脚本
-└── README.md          # 本文档
+├── unit/                # Unit tests
+│   ├── controllers/     # Controller tests
+│   ├── middleware/      # Middleware tests
+│   ├── services/        # Service layer tests
+│   └── utils/           # Utility function tests
+├── setup.ts             # Test environment setup
+├── runTests.js          # Test execution script
+└── README.md            # This document
 ```
 
-## 🧪 测试类型
+## 🧪 Test Types
 
-### 1. 单元测试 (Unit Tests)
-测试单个函数、类或组件的功能。
+### 1. Unit Tests
+Tests individual functions, classes, or component functionality.
 
-- **位置**: `tests/unit/`
-- **范围**: 工具函数、服务方法、控制器方法、中间件
-- **特点**: 快速执行、隔离测试、使用 Mock
+- **Location**: `tests/unit/`
+- **Scope**: Utility functions, service methods, controller methods, middleware
+- **Characteristics**: Fast execution, isolated tests, uses Mocks
 
-### 2. 集成测试 (Integration Tests)
-测试多个组件之间的协作。
+### 2. Integration Tests
+Tests collaboration between multiple components.
 
-- **位置**: `tests/integration/`
-- **范围**: API 端点、数据库交互
-- **特点**: 真实环境测试、较慢执行
+- **Location**: `tests/integration/`
+- **Scope**: API endpoints, database interactions
+- **Characteristics**: Real environment testing, slower execution
 
-## 🚀 运行测试
+## 🚀 Running Tests
 
-### 使用 npm 脚本
+### Using npm Scripts
 
 ```bash
-# 运行所有测试
+# Run all tests
 npm test
 
-# 运行单元测试
+# Run unit tests only
 npm run test:unit
 
-# 运行集成测试
+# Run integration tests only
 npm run test:integration
 
-# 生成覆盖率报告
+# Generate coverage report
 npm run test:coverage
 
-# 监听模式运行测试
+# Run tests in watch mode
 npm run test:watch
 
-# CI 模式运行测试
+# Run tests in CI mode
 npm run test:ci
 ```
 
-### 使用测试运行脚本
+### Using Test Script
 
 ```bash
-# 运行所有测试
-node tests/runTests.js all
+# Run all tests
+node tests/runTests.js
 
-# 运行单元测试
+# Run unit tests
 node tests/runTests.js unit
 
-# 运行集成测试
+# Run integration tests
 node tests/runTests.js integration
 
-# 监听模式
+# Watch mode
 node tests/runTests.js watch
 
-# 生成覆盖率
+# Generate coverage
 node tests/runTests.js coverage
 ```
 
-## 📊 覆盖率配置
+## 📊 Coverage Configuration
 
-覆盖率阈值在 `jest.config.js` 中定义：
+Coverage thresholds are defined in `jest.config.js`:
 
 ```javascript
-coverageThresholds: {
+coverageThreshold: {
   global: {
     branches: 70,
     functions: 70,
-    lines: 70,
-    statements: 70
-  },
-  './src/utils/': {
-    branches: 90,
-    functions: 90,
-    lines: 90,
-    statements: 90
+    lines: 80,
+    statements: 80
   }
 }
 ```
 
-## 🔧 测试配置
+## 🔧 Test Configuration
 
-### Jest 配置 (jest.config.js)
-- TypeScript 支持: `ts-jest`
-- 测试环境: Node.js
-- 覆盖率报告: text, lcov, html, json
-- 路径映射: 支持 @/ 别名
+### Jest Configuration (jest.config.js)
+- TypeScript support: `ts-jest`
+- Test environment: Node.js
+- Coverage reports: text, lcov, html, json
+- Path mapping: Supports @/ alias
 
-### 测试环境设置 (tests/setup.ts)
-- 设置测试环境变量
-- 清理测试数据
-- 配置全局超时时间
+### Test Environment Setup (tests/setup.ts)
+- Set test environment variables
+- Clean test data
+- Configure global timeout
 
-### Mock 配置
-- PostgreSQL: `tests/__mocks__/pg.ts`
-- 外部服务: 在测试文件中单独配置
+### Mock Configuration
+- External services: Configured separately in test files
 
-## 📝 编写测试指南
+## 📝 Writing Tests Guide
 
-### 1. 单元测试示例
+### 1. Unit Test Example
 
 ```typescript
-import { functionName } from '../../../src/utils/file';
-describe('functionName', () => {
+describe('FunctionName', () => {
   beforeEach(() => {
-    // 测试前准备
+    // Pre-test setup
   });
 
-  it('should return expected result', () => {
-    // 测试逻辑
-    expect(result).toEqual(expected);
+  it('should return expected result when given valid input', () => {
+    // Test logic
   });
 
-  it('should handle errors', () => {
-    // 错误处理测试
+  it('should handle errors when given invalid input', () => {
+    // Error handling test
   });
 });
 ```
 
-### 2. 集成测试示例
+### 2. Integration Test Example
 
 ```typescript
-import request from 'supertest';
-import app from '../../src/app';
-
 describe('API Endpoint', () => {
-  it('should return 200 for valid request', async () => {
+  it('should return 200 on success', async () => {
     const response = await request(app)
-      .get('/api/endpoint')
+      .get('/api/resource')
       .expect(200);
     
-    expect(response.body.success).toBe(true);
+    expect(response.body).toHaveProperty('data');
   });
 });
 ```
 
-## 🎯 测试最佳实践
+## 🎯 Testing Best Practices
 
-### 1. 测试命名
-- 使用描述性的测试名称
-- 格式: `should [expected behavior] when [condition]`
+### 1. Test Naming
+- Use descriptive test names
+- Format: `should [expected behavior] when [condition]`
 
-### 2. 测试结构 (AAA 模式)
-- **Arrange**: 准备测试数据和 Mock
-- **Act**: 执行被测试的代码
-- **Assert**: 验证结果
+### 2. Test Structure (AAA Pattern)
+- **Arrange**: Prepare test data and Mocks
+- **Act**: Execute the code being tested
+- **Assert**: Verify results
 
-### 3. Mock 使用
-- Mock 外部依赖
-- 避免真实数据库连接
-- 重置 Mock 状态
+### 3. Mock Usage
+- Mock external dependencies
+- Avoid real database connections
+- Reset Mock state
 
-### 4. 测试数据
-- 使用最小化的测试数据
-- 避免依赖外部数据
-- 清理测试产生的数据
+### 4. Test Data
+- Use minimal test data
+- Avoid depending on external data
+- Clean up data produced by tests
 
-## 🔍 调试测试
+## 🔍 Debugging Tests
 
-### 1. 使用调试模式
+### 1. Use Debug Mode
 ```bash
 npm run test:debug
 ```
 
-### 2. 查看详细输出
+### 2. View Verbose Output
 ```bash
 npm run test:verbose
 ```
 
-### 3. 运行特定测试
+### 3. Run Specific Tests
 ```bash
-npm test -- --testNamePattern="specific test name"
+npm test -- path/to/test.test.ts
 ```
 
-## 📈 CI/CD 集成
+## 📈 CI/CD Integration
 
-在持续集成环境中使用：
+Use in continuous integration environments:
+
 ```bash
 npm run test:ci
 ```
 
-该命令会：
-- 运行所有测试
-- 生成覆盖率报告
-- 输出机器可读的结果
-- 不进入监听模式
+This command will:
+- Run all tests
+- Generate coverage reports
+- Output machine-readable results
+- Not enter watch mode
 
-## 🐛 常见问题
+## 🐛 Common Issues
 
-### 1. 数据库连接错误
-确保测试数据库配置正确：
-- 检查 `.env` 文件中的测试数据库设置
-- 确保测试数据库可访问
+### 1. Database Connection Error
+Ensure test database configuration is correct:
+- Check test database settings in `.env` file
+- Ensure test database is accessible
 
-### 2. Mock 不生效
-- 检查 Mock 文件路径
-- 确保在使用前正确引入 Mock
+### 2. Mock Not Working
+- Check Mock file path
+- Ensure Mocks are properly imported before use
 
-### 3. 测试超时
-- 增加测试超时时间
-- 检查异步操作是否正确处理
+### 3. Test Timeout
+- Increase test timeout duration
+- Check if async operations are handled correctly
 
-## 📚 参考资源
+## 📚 Reference Resources
 
-- [Jest 官方文档](https://jestjs.io/docs/getting-started)
-- [Supertest 文档](https://github.com/visionmedia/supertest)
-- [TypeScript Jest 配置](https://kulshekhar.github.io/ts-jest/)
+- [Jest Official Documentation](https://jestjs.io/docs/getting-started)
+- [Supertest Documentation](https://github.com/visionmedia/supertest)
+- [TypeScript Jest Configuration](https://kulshekhar.github.io/ts-jest/)

@@ -19,10 +19,10 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
   if (!token) {
     res.status(401).json({
       success: false,
-      message: '缺少访问令牌',
+      message: 'Missing access token',
       error: {
         code: 'MISSING_TOKEN',
-        details: '需要在请求头中提供Bearer token'
+        details: 'Bearer token must be provided in request header'
       }
     });
     return;
@@ -33,24 +33,24 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
   if (!payload) {
     res.status(403).json({
       success: false,
-      message: '无效的访问令牌',
+      message: 'Invalid access token',
       error: {
         code: 'INVALID_TOKEN',
-        details: '令牌已过期或无效'
+        details: 'Token is expired or invalid'
       }
     });
     return;
   }
 
-  // 验证用户是否存在且处于活跃状态
+  // Verify that user exists and is active
   const user = await UserService.getUserById(payload.userId);
   if (!user) {
     res.status(403).json({
       success: false,
-      message: '用户不存在',
+      message: 'User does not exist',
       error: {
         code: 'USER_NOT_FOUND',
-        details: '令牌对应的用户不存在'
+        details: 'User corresponding to token does not exist'
       }
     });
     return;
@@ -59,23 +59,23 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
   if (!user.isActive) {
     res.status(403).json({
       success: false,
-      message: '用户账户已被禁用',
+      message: 'User account has been disabled',
       error: {
         code: 'USER_INACTIVE',
-        details: '用户账户处于非活跃状态'
+        details: 'User account is in inactive state'
       }
     });
     return;
   }
 
-  // 将用户信息（不包含密码）附加到请求对象
+  // Attach user information (excluding password) to request object
   req.user = user;
   req.tokenPayload = payload;
   
   next();
 };
 
-// 可选的认证中间件 - 如果有token则验证，没有token也允许访问
+// Optional authentication middleware - validates token if present, but allows access without token
 export const optionalAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -98,36 +98,36 @@ export const optionalAuth = async (req: Request, res: Response, next: NextFuncti
   next();
 };
 
-// 检查用户是否为管理员的中间件
+// Middleware to check if user is admin
 export const requireAdmin = (req: Request, res: Response, next: NextFunction): void => {
   if (!req.user) {
     res.status(401).json({
       success: false,
-      message: '未认证',
+      message: 'Unauthenticated',
       error: {
         code: 'UNAUTHENTICATED',
-        details: '需要认证才能访问此资源'
+        details: 'Authentication required to access this resource'
       }
     });
     return;
   }
 
-  // 在这里可以添加管理员权限检查逻辑
-  // 例如检查用户角色或特定权限
-  // 目前我们假设所有认证用户都有基本权限
+  // Admin permission check logic can be added here
+  // For example, check user role or specific permissions
+  // Currently we assume all authenticated users have basic permissions
   
   next();
 };
 
-// 验证用户是否正在访问自己的资源的中间件
+// Middleware to verify if user is accessing their own resources
 export const requireSelfOrAdmin = (req: Request, res: Response, next: NextFunction): void => {
   if (!req.user) {
     res.status(401).json({
       success: false,
-      message: '未认证',
+      message: 'Unauthenticated',
       error: {
         code: 'UNAUTHENTICATED',
-        details: '需要认证才能访问此资源'
+        details: 'Authentication required to access this resource'
       }
     });
     return;
@@ -140,14 +140,14 @@ export const requireSelfOrAdmin = (req: Request, res: Response, next: NextFuncti
     return;
   }
 
-  // 在这里可以添加管理员检查逻辑
-  // 目前拒绝访问
+  // Admin check logic can be added here
+  // Currently denying access
   res.status(403).json({
     success: false,
-    message: '权限不足',
+    message: 'Insufficient permissions',
     error: {
       code: 'INSUFFICIENT_PERMISSIONS',
-      details: '只能访问自己的资源'
+      details: 'Can only access own resources'
     }
   });
 };

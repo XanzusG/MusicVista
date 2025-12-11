@@ -4,28 +4,28 @@ import * as trackController from '../controllers/trackController';
 const router = Router();
 
 /**
- * 歌曲路由
- * 所有路由都映射到 /api/tracks
+ * Track routes
+ * All routes are mapped to /api/tracks
  */
 
-// GET /api/tracks - 获取歌曲列表
+// GET /api/tracks - Get track list
 router.get('/', trackController.getAllTracks);
 
-// // GET /api/tracks/trending - 获取热门歌曲
+// // GET /api/tracks/trending - Get trending tracks
 // router.get('/trending', trackController.getTrendingTracks);
 
-// // GET /api/tracks/search - 搜索歌曲
+// // GET /api/tracks/search - Search tracks
 router.get('/search', trackController.searchTracks);
 
 router.get('/count', trackController.getTrackCount);
 
-// // GET /api/tracks/album/:albumId - 根据专辑获取歌曲
+// // GET /api/tracks/album/:albumId - Get tracks by album
 // router.get('/album/:albumId', trackController.getTracksByAlbum);
 
-// // GET /api/tracks/artist/:artistId - 根据艺术家获取歌曲
+// // GET /api/tracks/artist/:artistId - Get tracks by artist
 // router.get('/artist/:artistId', trackController.getTracksByArtist);
 
-// // GET /api/tracks/:id - 获取歌曲详情
+// // GET /api/tracks/:id - Get track details
 router.get('/:id', trackController.getTrackById);
 
 router.get('/:id/lyrics', trackController.getLyricsByTrackId);
