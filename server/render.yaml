@@ -1,0 +1,127 @@
+# ===========================================
+# Render 部署配置
+# 文档: https://render.com/docs/yaml-spec
+# ===========================================
+
+services:
+  - type: web
+    name: musicvista-api
+    runtime: node
+    region: oregon              # 区域: oregon (US West), frankfurt (EU), singapore (Asia)
+    plan: free                  # 免费套餐
+    
+    # 构建配置（不需要 rootDir，因为 yaml 就在 server 目录）
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    
+    # 健康检查
+    healthCheckPath: /health
+    
+    # 自动部署（Git push 自动触发）
+    autoDeploy: true
+    
+    # 环境变量
+    envVars:
+      # Node 环境
+      - key: NODE_ENV
+        value: production
+      
+      - key: PORT
+        value: 3001
+      
+      # 数据库配置（在 Dashboard 手动添加实际值）
+      - key: DB_HOST
+        sync: false             # 需要在 Dashboard 手动配置
+      
+      - key: DB_PORT
+        value: 5432
+      
+      - key: DB_NAME
+        sync: false
+      
+      - key: DB_USER
+        sync: false
+      
+      - key: DB_PASSWORD
+        sync: false
+      
+      # JWT 配置（Render 自动生成安全密钥）
+      - key: JWT_ACCESS_SECRET
+        generateValue: true     # Render 自动生成随机值
+      
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      
+      - key: JWT_ACCESS_EXPIRATION
+        value: 15m
+      
+      - key: JWT_REFRESH_EXPIRATION
+        value: 7d
+      
+      # CORS 配置（部署前端后更新）
+      - key: FRONTEND_URL
+        value: https://musicvista.vercel.app
+      
+      - key: CORS_ORIGINS
+        value: https://musicvista.vercel.app,http://localhost:5173
+      
+      # 日志级别
+      - key: LOG_LEVEL
+        value: info
+
+# ===========================================
+# 📋 部署步骤：
+#
+# 1. 提交此文件到 Git:
+#    git add server/render.yaml
+#    git commit -m "feat: add Render deployment config"
+#    git push
+#
+# 2. 访问 Render Dashboard:
+#    https://dashboard.render.com
+#
+# 3. 部署方式选择其一:
+#
+#    方式 A - Blueprint (推荐):
+#    - New → Blueprint
+#    - 连接 GitHub 仓库
+#    - Render 自动识别 render.yaml
+#    - 在 Dashboard 添加敏感环境变量 (DB_HOST, DB_PASSWORD 等)
+#    - 点击 Apply 开始部署
+#
+#    方式 B - 手动创建:
+#    - New → Web Service
+#    - 连接 GitHub 仓库
+#    - Root Directory: try/clean/server
+#    - 其他配置 Render 会从 yaml 读取
+#    - 添加敏感环境变量
+#    - Create Web Service
+#
+# 4. 部署完成后:
+#    - 获取 URL: https://musicvista-api.onrender.com
+#    - 测试健康检查: https://musicvista-api.onrender.com/health
+#    - 更新前端环境变量: VITE_API_BASE_URL
+#
+# ===========================================
+
+# ===========================================
+# ⚠️ 重要提示：
+#
+# 1. 敏感环境变量需要在 Render Dashboard 手动添加：
+#    - DB_HOST (AWS RDS 地址)
+#    - DB_NAME (millionsongsubset)
+#    - DB_USER (postgres)
+#    - DB_PASSWORD (你的实际密码)
+#
+# 2. JWT 密钥会自动生成，无需手动配置
+#
+# 3. 免费套餐限制：
+#    - 15 分钟无请求会休眠
+#    - 冷启动需要 30-60 秒
+#    - 每月 750 小时运行时间
+#
+# 4. 解决休眠问题：
+#    - 使用 cron-job.org 定时 ping
+#    - 或升级到付费套餐 ($7/月)
+#
+# ===========================================
