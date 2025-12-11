@@ -220,7 +220,7 @@ export async function getPopWords(): Promise<{ word: string; cnt: number }[]> {
             -- where cleaned_word ~ '^[a-z]+$'  -- Ensure only letters
             group by cleaned_word
             order by cnt desc
-            limit 20;
+            limit 40;
         `;
         
         const result: QueryResult = await pool.query(query, [basicStopWords]);
