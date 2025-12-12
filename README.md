@@ -16,8 +16,17 @@
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
 - [Development](#development)
+- [Testing](#testing)
+- [Docker Support](#docker-support)
+- [Environment Variables Reference](#environment-variables-reference)
+- [Available Scripts](#available-scripts)
+- [Security Notes](#security-notes)
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
+- [Team](#team)
+- [Acknowledgments](#acknowledgments)
+- [Support](#support)
 
 ---
 
@@ -45,6 +54,8 @@
 - **Chart.js & Recharts** - Data visualization
 - **React Hook Form** - Form management
 - **Zod** - Schema validation
+- **Vitest** - Fast unit testing framework
+- **React Testing Library** - Component testing
 
 ### Backend
 - **Node.js** - JavaScript runtime
@@ -55,6 +66,8 @@
 - **Bcrypt** - Password hashing
 - **Helmet** - Security middleware
 - **Morgan** - HTTP request logger
+- **Jest** - Testing framework
+- **Supertest** - HTTP API testing
 
 ---
 
@@ -208,38 +221,42 @@ Frontend will run at: `http://localhost:5173`
 Music-Explorer/
 ├── client/                      # Frontend React application
 │   ├── src/
-│   │   ├── components/          # Reusable UI components
-│   │   ├── pages/               # Page components
-│   │   ├── lib/                 # API clients and utilities
-│   │   ├── hooks/               # Custom React hooks
-│   │   ├── contexts/            # React contexts
-│   │   ├── assets/              # Static assets
+│   │   ├── components/          # Reusable UI components (11 files)
+│   │   ├── pages/               # Page components (6 files)
+│   │   ├── lib/                 # Utility libraries and helpers
+│   │   ├── App.tsx              # Root component
 │   │   └── main.tsx             # Application entry point
-│   ├── public/                  # Public static files
-│   ├── .env                     # Environment variables (local)
-│   ├── .npmrc                   # NPM configuration
+│   ├── tests/                   # Frontend test files (Vitest)
+│   ├── coverage/                # Test coverage reports
+│   ├── .env.example             # Environment variables template
 │   ├── package.json             # Frontend dependencies
 │   ├── vite.config.ts           # Vite configuration
+│   ├── vitest.config.ts         # Vitest test configuration
 │   ├── tailwind.config.js       # Tailwind CSS configuration
-│   └── tsconfig.json            # TypeScript configuration
+│   ├── tsconfig.json            # TypeScript configuration
+│   ├── Dockerfile               # Docker configuration
+│   └── vercel.json              # Vercel deployment config
 │
 ├── server/                      # Backend Express API
 │   ├── src/
-│   │   ├── routes/              # API route handlers
-│   │   ├── controllers/         # Business logic
-│   │   ├── middleware/          # Express middleware
-│   │   ├── database/            # Database connection & queries
+│   │   ├── controllers/         # Request handlers (4 files)
+│   │   ├── services/            # Business logic layer (5 files)
+│   │   ├── routes/              # API route definitions (4 files)
+│   │   ├── middleware/          # Express middleware (2 files)
+│   │   ├── database/            # Database connection
 │   │   ├── utils/               # Utility functions
+│   │   ├── types/               # TypeScript type definitions
 │   │   └── server.ts            # Server entry point
-│   ├── tests/                   # Test files
-│   ├── dist/                    # Compiled JavaScript (generated)
-│   ├── .env                     # Environment variables (local)
+│   ├── tests/                   # Backend test files (Jest)
+│   ├── coverage/                # Test coverage reports
+│   ├── .env.example             # Environment variables template
 │   ├── package.json             # Backend dependencies
+│   ├── jest.config.js           # Jest test configuration
 │   ├── tsconfig.json            # TypeScript configuration
+│   ├── Dockerfile               # Docker configuration
 │   └── render.yaml              # Render deployment config
 │
-├── .gitignore                   # Git ignore rules
-├── DEPLOYMENT.md                # Deployment documentation
+├── .gitignore                   # Root Git ignore rules
 └── README.md                    # This file
 ```
 
@@ -326,7 +343,7 @@ All API responses follow this format:
 
 ---
 
-## 🔧 Development
+## Development
 
 ### Backend Development
 
@@ -341,6 +358,7 @@ npm run dev
 npm test                  # Run all tests
 npm run test:watch        # Watch mode
 npm run test:coverage     # With coverage report
+npm run test:verbose      # Run tests with verbose output
 ```
 
 **Build for production:**
@@ -354,6 +372,13 @@ npm run build:prod
 ```bash
 cd client
 npm run dev
+```
+
+**Run tests:**
+```bash
+npm test                  # Run all tests
+npm run test:coverage     # With coverage report
+npm run test:ui           # Open Vitest UI
 ```
 
 **Build for production:**
@@ -403,7 +428,14 @@ npx tsc --noEmit
 
 ### Backend Tests
 
-The server uses **Jest** for testing.
+The server uses **Jest** and **Supertest** for testing with comprehensive unit and integration test coverage.
+
+**Test Coverage (as of latest update):**
+- Statements: 92.09% (687/746)
+- Branches: 70.52% (280/397)
+- Functions: 100% (77/77)
+- Lines: 91.99% (678/737)
+- Test Pass Rate: 96.25% (257/267 tests passing)
 
 ```bash
 cd server
@@ -420,7 +452,48 @@ npm run test:integration   # Integration tests only
 
 # Watch mode for development
 npm run test:watch
+
+# Verbose output
+npm run test:verbose
 ```
+
+### Frontend Tests
+
+The client uses **Vitest** and **React Testing Library** for component and integration testing.
+
+**Test Coverage (as of latest update):**
+- Statements: 93.15% (2871/3082)
+- Branches: 81.49% (458/562)
+- Functions: 62.91% (95/151)
+- Lines: 93.15% (2871/3082)
+
+```bash
+cd client
+
+# Run all tests
+npm test
+
+# Run with coverage
+npm run test:coverage
+
+# Open Vitest UI (recommended)
+npm run test:ui
+
+# Watch mode
+npm test -- --watch
+```
+
+### Test Structure
+
+**Backend Tests** (`server/tests/`):
+- Unit Tests: Controllers, Services, Middleware
+- Integration Tests: API endpoints with database
+- Test files follow `*.test.ts` naming convention
+
+**Frontend Tests** (`client/tests/`):
+- Component Tests: UI component rendering and behavior
+- Integration Tests: Page-level functionality
+- Test files follow `*.test.tsx` naming convention
 
 ---
 
@@ -517,7 +590,7 @@ npm run clean            # Clean node_modules and build files
 
 1. **Never commit `.env` files** with real credentials to version control
 2. **Keep database credentials secure** and use read-only access when possible
-3. **Enable HTTPS** in production environments
+3. **Enable HTTPS** in production environments (automatically provided by Vercel and Render)
 4. **Keep dependencies updated** regularly
 5. **Use environment-specific configurations** for different deployment stages
 
@@ -525,9 +598,35 @@ npm run clean            # Clean node_modules and build files
 
 ## Deployment
 
-For deployment instructions to Render (backend) and Vercel (frontend), please see:
-- [DEPLOYMENT.md](./DEPLOYMENT.md)
-- Backend: [server/render.yaml](./server/render.yaml)
+### Production Deployment
+
+**Frontend: Deployed on Vercel**
+- Automatic deployments from main branch
+- Environment variables configured in Vercel dashboard
+- Build command: `npm run build`
+- Output directory: `dist`
+
+**Backend: Deployed on Render**
+- Automatic deployments from main branch
+- Environment variables configured in Render dashboard
+- Build command: `npm ci && npm run build`
+- Start command: `npm start`
+
+### Local Production Build
+
+**Backend:**
+```bash
+cd server
+npm run build
+npm start
+```
+
+**Frontend:**
+```bash
+cd client
+npm run build
+npm run preview
+```
 
 ---
 
@@ -568,7 +667,3 @@ This project is licensed under the MIT License.
 For issues and questions:
 - Open an issue on GitHub
 - Contact the development team
-
----
-
-**Happy Coding! 🎵✨**
