@@ -1,10 +1,10 @@
-# 🎵 MusicVista
+# MusicVista
 
 **MusicVista** is a comprehensive music data visualization and exploration platform built with modern web technologies. It provides users with insights into artists, albums, tracks, and music trends through interactive visualizations and advanced search capabilities.
 
 **GitHub Repository:** [https://github.com/abbyzhou02/Music-Explorer](https://github.com/abbyzhou02/Music-Explorer)
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -21,19 +21,19 @@
 
 ---
 
-## ✨ Features
+## Features
 
-- 🎨 **Interactive Music Data Visualization** - Explore music data through charts, graphs, and word clouds
-- 🔍 **Advanced Search & Filtering** - Search for artists, albums, and tracks with multiple filters
-- 📊 **Artist Analytics** - View detailed artist profiles with popularity metrics and collaboration networks
-- 🎵 **Album & Track Discovery** - Browse albums and tracks with rich metadata
-- 🌐 **Genre & Trend Analysis** - Explore music genres and trends over time
-- 📱 **Responsive Design** - Seamless experience across desktop and mobile devices
-- 🎯 **Million Song Dataset** - Powered by comprehensive music metadata
+- **Interactive Music Data Visualization** - Explore music data through charts, graphs, and word clouds
+- **Advanced Search & Filtering** - Search for artists, albums, and tracks with multiple filters
+- **Artist Analytics** - View detailed artist profiles with popularity metrics and collaboration networks
+- **Album & Track Discovery** - Browse albums and tracks with rich metadata
+- **Genre & Trend Analysis** - Explore music genres and trends over time
+- **Responsive Design** - Seamless experience across desktop and mobile devices
+- **Million Song Dataset** - Powered by comprehensive music metadata
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 18** - Modern UI library
@@ -58,7 +58,7 @@
 
 ---
 
-## 📦 Prerequisites
+## Prerequisites
 
 Before running this project, make sure you have the following installed:
 
@@ -76,7 +76,7 @@ psql --version
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 
@@ -176,7 +176,7 @@ VITE_LOG_LEVEL=debug
 
 ---
 
-## 🎬 Running the Application
+## Running the Application
 
 ### Run Backend and Frontend Separately
 
@@ -202,7 +202,7 @@ Frontend will run at: `http://localhost:5173`
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 Music-Explorer/
@@ -245,7 +245,7 @@ Music-Explorer/
 
 ---
 
-## 📡 API Documentation
+## API Documentation
 
 ### Base URL
 ```
@@ -399,7 +399,7 @@ npx tsc --noEmit
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Backend Tests
 
@@ -424,7 +424,7 @@ npm run test:watch
 
 ---
 
-## 🐳 Docker Support
+## Docker Support
 
 Both frontend and backend have Docker support.
 
@@ -457,7 +457,7 @@ npm run docker:run
 
 ---
 
-## 🌍 Environment Variables Reference
+## Environment Variables Reference
 
 ### Backend Environment Variables
 
@@ -486,7 +486,7 @@ npm run docker:run
 
 ---
 
-## 📝 Available Scripts
+## Available Scripts
 
 ### Backend Scripts
 
@@ -513,7 +513,7 @@ npm run clean            # Clean node_modules and build files
 
 ---
 
-## 🔒 Security Notes
+## Security Notes
 
 1. **Never commit `.env` files** with real credentials to version control
 2. **Keep database credentials secure** and use read-only access when possible
@@ -523,7 +523,7 @@ npm run clean            # Clean node_modules and build files
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 For deployment instructions to Render (backend) and Vercel (frontend), please see:
 - [DEPLOYMENT.md](./DEPLOYMENT.md)
@@ -531,7 +531,7 @@ For deployment instructions to Render (backend) and Vercel (frontend), please se
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -543,19 +543,19 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👥 Team
+## Team
 
 **MusicVista Team** - University of Pennsylvania CIS4500 Project
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Million Song Dataset for music data
 - Radix UI for accessible components
@@ -563,7 +563,7 @@ This project is licensed under the MIT License.
 
 ---
 
-## 📞 Support
+## Support
 
 For issues and questions:
 - Open an issue on GitHub
