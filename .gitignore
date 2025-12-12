@@ -1,27 +1,27 @@
 # ==========================================
-# 项目根目录 .gitignore
+# Project Root .gitignore
 # ==========================================
 
-# 依赖目录
+# Dependency directories
 node_modules/
 .pnp/
 .pnp.js
 
-# 环境变量
-# 注意：项目允许提交 .env 文件（用于教学/演示）
+# Environment variables
+# Note: Project allows committing .env file (for teaching/demo purposes)
 # .env
 .env*.local
 
-# 保留示例文件
+# Keep example files
 !.env.example
 
-# 构建输出
+# Build output
 dist/
 build/
 out/
 *.tsbuildinfo
 
-# 日志文件
+# Log files
 logs/
 *.log
 npm-debug.log*
@@ -30,26 +30,26 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# 测试覆盖率
+# Test coverage
 coverage/
 !coverage/index.html
 .nyc_output/
 *.lcov
 
-# 缓存目录
+# Cache directories
 .cache/
 .parcel-cache/
 .npm
 .eslintcache
 .stylelintcache
 
-# 临时文件
+# Temporary files
 *.tmp
 *.temp
 .tmp/
 temp/
 
-# 操作系统文件
+# OS files
 .DS_Store
 .DS_Store?
 ._*
@@ -59,7 +59,7 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# 编辑器配置
+# Editor configuration
 .vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -70,7 +70,7 @@ desktop.ini
 *.sublime-project
 *.sublime-workspace
 
-# 包管理器
+# Package managers
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
@@ -78,33 +78,33 @@ desktop.ini
 .pnp.*
 package-lock.json.backup
 
-# PM2 进程管理
+# PM2 process management
 .pm2/
 ecosystem.config.js.backup
 
-# Docker 相关（可选）
+# Docker related (optional)
 # docker-compose.override.yml
 
-# 上传文件（生产环境）
+# Upload files (production)
 uploads/
 public/uploads/
 
-# 数据库文件（如果本地用 SQLite）
+# Database files (if using SQLite locally)
 *.db
 *.sqlite
 *.sqlite3
 
-# 证书文件
+# Certificate files
 *.pem
 *.key
 *.cert
 
-# 备份文件
+# Backup files
 *.bak
 *.backup
 *~
 
-# 项目特定
+# Project specific
 .next/
 .nuxt/
 .vuepress/dist
