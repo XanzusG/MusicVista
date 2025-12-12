@@ -214,9 +214,11 @@ export async function getArtists(params: getArtistsParams): Promise<Artist[]> {
                 WHERE 1 = 1
                 ${searchTerm ? `AND a.name ILIKE $${++paramIndex}` : ''}
                 ${ids.length > 0 ? `AND a.id = ANY($${++paramIndex}::TEXT[])` : ''}
+                ${!genreFilter ? `
                 ORDER BY ${sortBy} ${sortOrder}
                 ${limit > 0 ? `LIMIT $${++paramIndex}` : ''}
                 ${offset > 0 ? `OFFSET $${++paramIndex}` : ''}
+                ` : ''}
             ),
             genres AS (
                 SELECT 
@@ -242,6 +244,10 @@ export async function getArtists(params: getArtistsParams): Promise<Artist[]> {
             LEFT JOIN artist_image ai ON g.id = ai.artist_id
             GROUP BY g.id, g.name, g.popularity, g.followers, g.genres
             ORDER BY ${sortBy} ${sortOrder}
+            ${genreFilter ? `
+            ${limit > 0 ? `LIMIT $${++paramIndex}` : ''}
+            ${offset > 0 ? `OFFSET $${++paramIndex}` : ''}
+            ` : ''}
         `;
 
         if (searchTerm) {
@@ -250,14 +256,14 @@ export async function getArtists(params: getArtistsParams): Promise<Artist[]> {
         if (ids.length > 0) {
             queryParams.push(ids);
         }
+        if (genreFilter) {
+            queryParams.push(`%${genreFilter}%`);
+        }
         if (limit > 0) {
             queryParams.push(limit);
         }
         if (offset > 0) {
             queryParams.push(offset);
-        }
-        if (genreFilter) {
-            queryParams.push(`%${genreFilter}%`);
         }
 
         console.log(query);

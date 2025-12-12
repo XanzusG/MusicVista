@@ -105,25 +105,16 @@ export async function getAlbums(params: SearchAlbumsParams): Promise<Album[] | n
         if (ids.length > 0) {
             queryParams.push(ids);
         }
-        if (artistIds.length === 0) {
-            if (limit > 0) {
-                queryParams.push(limit);
-            }   
-            if (offset > 0) {
-                queryParams.push(offset);
-            }
-        }
         if (artistIds.length > 0) {
             queryParams.push(artistIds);
         }
-        if (artistIds.length > 0) {
-            if (limit > 0) {
-                queryParams.push(limit);
-            }   
-            if (offset > 0) {
-                queryParams.push(offset);
-            }
+        if (limit > 0) {
+            queryParams.push(limit);
+        }   
+        if (offset > 0) {
+            queryParams.push(offset);
         }
+
         console.log('With parameters:', queryParams, 'Query:', query);
         
         const result: QueryResult<Album> = await pool.query(query, queryParams);
