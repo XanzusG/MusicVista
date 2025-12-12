@@ -20,7 +20,7 @@ describe('InsightService', () => {
   describe('getLoveDistribution', () => {
     it('should return love distribution data', async () => {
       const mockLoveDistribution = [
-        { emotion: 'Euphotic', cnt: 15, ratio: 0.3 },
+        { emotion: 'Euphoric', cnt: 15, ratio: 0.3 },
         { emotion: 'Cheerful', cnt: 10, ratio: 0.2 }
       ];
 

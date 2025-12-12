@@ -288,7 +288,7 @@ describe('ArtistService', () => {
   describe('getEmotionDistribution', () => {
     it('should return emotion distribution with default parameters', async () => {
       const mockEmotionDistribution = [
-        { emotion: 'Euphotic', track_num: 25, ratio: 0.5 },
+        { emotion: 'Euphoric', track_num: 25, ratio: 0.5 },
         { emotion: 'Calm', track_num: 15, ratio: 0.3 },
         { emotion: 'Bleak', track_num: 10, ratio: 0.2 },
       ];
@@ -385,7 +385,7 @@ describe('ArtistService', () => {
         rows: [
           { emotion: 'Frantic', track_num: 5, ratio: 0.1 },
           { emotion: 'Tense', track_num: 8, ratio: 0.16 },
-          { emotion: 'Euphotic', track_num: 10, ratio: 0.2 },
+          { emotion: 'Euphoric', track_num: 10, ratio: 0.2 },
           { emotion: 'Upset', track_num: 6, ratio: 0.12 },
           { emotion: 'Calm', track_num: 7, ratio: 0.14 },
           { emotion: 'Cheerful', track_num: 9, ratio: 0.18 },
@@ -404,7 +404,7 @@ describe('ArtistService', () => {
       if (result) {
         const emotions = result.map((r) => r.emotion);
         expect(emotions).toContain('Frantic');
-        expect(emotions).toContain('Euphotic');
+        expect(emotions).toContain('Euphoric');
         expect(emotions).toContain('Calm');
         expect(emotions).toContain('Bleak');
       }

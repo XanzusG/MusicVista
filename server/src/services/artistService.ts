@@ -579,7 +579,7 @@ export async function getEmotionDistribution(params: getArtistsParams): Promise<
                 CASE
                 WHEN energy >= 0.666 AND valence < 0.333 THEN 'Frantic'
                 WHEN energy >= 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Tense'
-                WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphotic'
+                WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphoric'
                 WHEN energy >= 0.333 AND energy < 0.666 AND valence < 0.333 THEN 'Upset'
                 WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Calm'
                 WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.666 THEN 'Cheerful'

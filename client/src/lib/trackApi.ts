@@ -27,7 +27,7 @@ export interface Track {
 }
 export interface TrackSearchParams {
     searchTerm?: string;
-    emotionFilter?: 'Frantic' | 'Tense' | 'Euphotic' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other';
+    emotionFilter?: 'Frantic' | 'Tense' | 'Euphoric' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other';
     // minPopularity?: number;
     // maxPopularity?: number;
     // minEnergy?: number;

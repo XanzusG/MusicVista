@@ -68,7 +68,7 @@ describe('TrackController', () => {
       
       mockRequest.query = {
         searchTerm: 'Test',
-        emotionFilter: 'Euphotic',
+        emotionFilter: 'Euphoric',
         sortBy: 'release_date',
         sortOrder: 'DESC',
         limit: '10',
@@ -80,7 +80,7 @@ describe('TrackController', () => {
 
       expect(mockTrackService.getTracks).toHaveBeenCalledWith({
         searchTerm: 'Test',
-        emotionFilter: 'Euphotic',
+        emotionFilter: 'Euphoric',
         sortBy: 'release_date',
         sortOrder: 'DESC',
         limit: 10,

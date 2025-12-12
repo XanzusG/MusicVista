@@ -233,7 +233,7 @@ describe('ArtistController', () => {
   describe('getEmotionDistribution', () => {
     it('should return emotion distribution successfully', async () => {
       const mockEmotionDistribution = [
-        { emotion: 'Euphotic', track_num: 25, ratio: 0.5 },
+        { emotion: 'Euphoric', track_num: 25, ratio: 0.5 },
         { emotion: 'Calm', track_num: 15, ratio: 0.3 },
         { emotion: 'Bleak', track_num: 10, ratio: 0.2 },
       ];

@@ -124,7 +124,7 @@ export function ExplorePage() {
           offset: (currentPage - 1) * pageSize,
           limit: pageSize,
           searchTerm: searchQuery,
-          emotionFilter: selectedEmotion as 'Frantic' | 'Tense' | 'Euphotic' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other',
+          emotionFilter: selectedEmotion as 'Frantic' | 'Tense' | 'Euphoric' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other',
           sortBy: sortBy as 'release_date' | 'name' | 'duration_ms',
           sortOrder: sortOrder,
         });
@@ -162,7 +162,7 @@ export function ExplorePage() {
       } else {
         const countRes = await getTrackCount({
           searchTerm: searchQuery,
-          emotionFilter: selectedEmotion as 'Frantic' | 'Tense' | 'Euphotic' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other',
+          emotionFilter: selectedEmotion as 'Frantic' | 'Tense' | 'Euphoric' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other',
         });
         setTotalItems(countRes.data || 0);
         console.log('Track count:', countRes.data);
@@ -303,7 +303,7 @@ export function ExplorePage() {
                   <option value="All">All Emotions</option>
                   <option value="Frantic">Frantic</option>
                   <option value="Tense">Tense</option>
-                  <option value="Euphotic">Euphotic</option>
+                  <option value="Euphoric">Euphoric</option>
                   <option value="Upset">Upset</option>
                   <option value="Calm">Calm</option>
                   <option value="Cheerful">Cheerful</option>

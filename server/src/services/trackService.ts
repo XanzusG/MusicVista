@@ -71,7 +71,7 @@ export interface getTrackParams {
 // }
 export interface TrackSearchParams {
     searchTerm?: string;
-    emotionFilter?: 'Frantic' | 'Tense' | 'Euphotic' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other';
+    emotionFilter?: 'Frantic' | 'Tense' | 'Euphoric' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other';
     // minPopularity?: number;
     // maxPopularity?: number;
     // minEnergy?: number;
@@ -100,7 +100,7 @@ export async function EmotionParams(emotion: string = 'All'): Promise<{minEnergy
       return {minEnergy: 0.666, maxEnergy: 1, minValence: 0, maxValence: 0.333};
     case 'Tense':
       return {minEnergy: 0.666, maxEnergy: 1, minValence: 0.333, maxValence: 0.666};
-    case 'Euphotic':
+    case 'Euphoric':
       return {minEnergy: 0.666, maxEnergy: 1, minValence: 0.666, maxValence: 1};
     case 'Upset':
       return {minEnergy: 0.333, maxEnergy: 0.666, minValence: 0, maxValence: 0.333};
@@ -392,7 +392,7 @@ export async function getSimilarTracks(params: SearchSimilarParams): Promise<Tra
 //         CASE
 //           WHEN energy >= 0.666 AND valence < 0.333 THEN 'Frantic'
 //           WHEN energy >= 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Tense'
-//           WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphotic'
+//           WHEN energy >= 0.666 AND valence >= 0.666 THEN 'Euphoric'
 //           WHEN energy >= 0.333 AND energy < 0.666 AND valence < 0.333 THEN 'Upset'
 //           WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.333 AND valence < 0.666 THEN 'Calm'
 //           WHEN energy >= 0.333 AND energy < 0.666 AND valence >= 0.666 THEN 'Cheerful'

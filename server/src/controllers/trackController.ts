@@ -21,7 +21,7 @@ export async function searchTracks(req: Request, res: Response): Promise<void> {
     try {
         const params = {
             searchTerm: (req.query.searchTerm as string) || '',
-            emotionFilter: (req.query.emotionFilter as 'Frantic' | 'Tense' | 'Euphotic' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other') || 'All',
+            emotionFilter: (req.query.emotionFilter as 'Frantic' | 'Tense' | 'Euphoric' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other') || 'All',
             sortBy: (req.query.sortBy as 'release_date' | 'name' | 'duration_ms') || 'release_date',
             sortOrder: (req.query.sortOrder as 'ASC' | 'DESC') || 'DESC',
             limit: req.query.limit ? parseInt(req.query.limit as string) : 10,
@@ -38,7 +38,7 @@ export async function getTrackCount(req: Request, res: Response): Promise<void> 
   try {
     const params = {
       searchTerm: (req.query.searchTerm as string) || '',
-      emotionFilter: (req.query.emotionFilter as 'Frantic' | 'Tense' | 'Euphotic' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other') || 'All',
+      emotionFilter: (req.query.emotionFilter as 'Frantic' | 'Tense' | 'Euphoric' | 'Upset' | 'Calm' | 'Cheerful' | 'Bleak' | 'Apathetic' | 'Serene' | 'All' | 'Other') || 'All',
     };
     const count = await TrackService.getTrackCount(params);
     sendSuccess(res, count);

@@ -62,7 +62,7 @@ describe('TrackService', () => {
       });
 
       await TrackService.getTracks({
-        emotionFilter: 'Euphotic'
+        emotionFilter: 'Euphoric'
       });
 
       expect(mockQuery).toHaveBeenCalledWith(

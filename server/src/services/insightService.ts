@@ -89,7 +89,7 @@ export async function getLoveDistribution(): Promise<LoveDistribution[]> {
                         WHEN energy < 0.333 AND valence > 0.666 THEN 'Serene'
                         WHEN energy < 0.333 AND valence  BETWEEN 0.333 AND 0.666 THEN 'Apathetic'
                         WHEN energy > 0.666 AND valence < 0.333 THEN 'Frantic'
-                        WHEN energy > 0.666 AND valence > 0.666 THEN 'Euphotic'
+                        WHEN energy > 0.666 AND valence > 0.666 THEN 'Euphoric'
                         WHEN energy > 0.666 AND valence BETWEEN 0.333 AND 0.666 THEN 'Tense'
                         WHEN energy BETWEEN 0.333 AND 0.666 AND valence < 0.333 THEN 'Upset'
                         WHEN energy BETWEEN 0.333 AND 0.666 AND valence > 0.666 THEN 'Cheerful'
