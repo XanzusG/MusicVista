@@ -115,7 +115,7 @@ export async function getAlbums(params: SearchAlbumsParams): Promise<Album[] | n
             queryParams.push(offset);
         }
 
-        console.log('With parameters:', queryParams, 'Query:', query);
+        // console.log('With parameters:', queryParams, 'Query:', query);
         
         const result: QueryResult<Album> = await pool.query(query, queryParams);
         return result.rows.length > 0 ? result.rows : null;

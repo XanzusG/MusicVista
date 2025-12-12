@@ -198,7 +198,7 @@ export async function getArtists(params: getArtistsParams): Promise<Artist[]> {
         sortOrder = 'DESC',
         ids = [],
     } = params;
-    console.log(params);
+    // console.log(params);
     try {
         const queryParams = [];
         let paramIndex = 0;
@@ -266,7 +266,7 @@ export async function getArtists(params: getArtistsParams): Promise<Artist[]> {
             queryParams.push(offset);
         }
 
-        console.log(query);
+        // console.log(query);
         // console.log(query, queryParams);
 
         const result: QueryResult = await pool.query(query, queryParams);
@@ -615,7 +615,7 @@ export async function getEmotionDistribution(params: getArtistsParams): Promise<
     }
 
     const result: QueryResult = await pool.query(query, queryParams);
-    console.log(result.rows);
+    // console.log(result.rows);
     return result.rows.length > 0 ? result.rows : null;
   } catch (error) {
     console.error('Error fetching emotion distribution:', error);
@@ -676,7 +676,7 @@ export async function getCollaborators(artistId: string): Promise<Artist[]> {
             ORDER BY collab_num DESC
         `;
         const queryParams = [artistId];
-        console.log(query, queryParams);
+        // console.log(query, queryParams);
 
         const result: QueryResult = await pool.query(query, queryParams);
 

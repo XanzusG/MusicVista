@@ -230,7 +230,7 @@ export async function getTracks(params: TrackSearchParams): Promise<Track[] | nu
         queryParams.push(offset);
       }
     }
-    console.log('query:', query);
+    // console.log('query:', query);
             // --t.popularity BETWEEN $1 AND $2 AND
             // --t.energy BETWEEN $3 AND $4 AND
             // --t.danceability BETWEEN $5 AND $6 AND
@@ -310,7 +310,7 @@ export async function getTrackCount(params: TrackSearchParams): Promise<number> 
             queryParams.push(artistIds);
         }
         const result: QueryResult<{ count: number }> = await pool.query(query, queryParams);
-        console.log('Track count result:', result.rows[0].count);
+        // console.log('Track count result:', result.rows[0].count);
         return result.rows[0].count;
     } catch (error) {
         console.error('Error fetching track count:', error);

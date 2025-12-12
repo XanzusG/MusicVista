@@ -224,7 +224,7 @@ export async function getPopWords(): Promise<{ word: string; cnt: number }[]> {
         `;
         
         const result: QueryResult = await pool.query(query, [basicStopWords]);
-        console.log('Query result:', result.rows);
+        // console.log('Query result:', result.rows);
         return result.rows;
     } catch (error) {
         console.error('Error executing query', error);

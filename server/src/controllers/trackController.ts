@@ -7,7 +7,7 @@ export async function getTrackById(req: Request, res: Response): Promise<void> {
         const trackId = req.params.id;
         // const track = await TrackService.getTrackById(trackId);
         const track = await TrackService.getTracks({ids: [trackId]});
-        console.log(track);
+        // console.log(track);
         if (track && track.length > 0) {
             sendSuccess(res, track[0], 200);
         } else {
